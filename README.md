@@ -258,7 +258,7 @@ shown below. Can't see yours? Have a look at the [extra platform instructions](h
 
    #### Elvish
 
-   **Warning** Only elvish v0.15 or higher is supported.
+   **Warning** Only elvish v0.17 or higher is supported.
    Add the following to the end of `~/.elvish/rc.elv`:
 
    ```sh
@@ -285,6 +285,16 @@ shown below. Can't see yours? Have a look at the [extra platform instructions](h
    # ~/.xonshrc
 
    execx($(starship init xonsh))
+   ```
+
+   #### Cmd
+
+   You need to use [Clink](https://chrisant996.github.io/clink/clink.html) (v1.2.30+) with Cmd. Add the following to a file `starship.lua` and place this file in Clink scripts directory:
+
+   ```lua
+   -- starship.lua
+
+   load(io.popen('starship init cmd'):read("*a"))()
    ```
 
    #### Nushell
