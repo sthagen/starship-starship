@@ -106,7 +106,13 @@ $null = New-Module starship {
         $arguments += "--status=$($lastExitCodeForPrompt)"
 
         # Invoke Starship
-        Invoke-Native -Executable ::STARSHIP:: -Arguments $arguments
+        $promptText = Invoke-Native -Executable ::STARSHIP:: -Arguments $arguments
+
+        # Set the number of extra lines in the prompt for PSReadLine prompt redraw.
+        Set-PSReadLineOption -ExtraPromptLineCount ($promptText.Split("`n").Length - 1)
+
+        # Return the prompt
+        $promptText
 
         # Propagate the original $LASTEXITCODE from before the prompt function was invoked.
         $global:LASTEXITCODE = $origLastExitCode
@@ -135,7 +141,11 @@ $null = New-Module starship {
     # Disable virtualenv prompt, it breaks starship
     $ENV:VIRTUAL_ENV_DISABLE_PROMPT=1
 
-    $ENV:STARSHIP_SHELL = "powershell"
+    if ($PSVersionTable.PSVersion.Major -gt 5) {
+        $ENV:STARSHIP_SHELL = "pwsh"
+    } else {
+        $ENV:STARSHIP_SHELL = "powershell"
+    }
 
     # Set up the session key that will be used to store logs
     $ENV:STARSHIP_SESSION_KEY = -join ((48..57) + (65..90) + (97..122) | Get-Random -Count 16 | ForEach-Object { [char]$_ })

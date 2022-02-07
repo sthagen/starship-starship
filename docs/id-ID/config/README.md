@@ -9,14 +9,14 @@ mkdir -p ~/.config && touch ~/.config/starship.toml
 Seluruh konfigurasi starship dilakukan dalam file [TOML](https://github.com/toml-lang/toml) berikut:
 
 ```toml
-# Menambahkan baris kosong antar prompt shell
+# Inserts a blank line between shell prompts
 add_newline = true
 
-# Mengganti simbol "❯" pada prompt dengan simbol "➜"
-[character]                            # Nama modul yang dikonfigurasi adalah "character"
-success_symbol = "[➜](bold green)"     # Segmen "success_symbol" diganti menjadi "➜" dengan warna "bold green"
+# Replace the "❯" symbol in the prompt with "➜"
+[character] # The name of the module we are configuring is "character"
+success_symbol = "[➜](bold green)" # The "success_symbol" segment is being set to "➜" with the color "bold green"
 
-# Menonaktifkan paket modul, menyembunyikannya dari prompt seutuhnya
+# Disable the package module, hiding it from the prompt completely
 [package]
 disabled = true
 ```
@@ -24,13 +24,19 @@ disabled = true
 Kamu bisa mengganti lokasi file konfigurasi bawaan dengan menggunakan environment variable dari `STARSHIP_CONFIG`:
 
 ```sh
-export STARSHIP_CONFIG=~/.starship/config.toml
+export STARSHIP_CONFIG=~/example/non/default/path/starship.toml
 ```
 
 Ekuivalen dalam PowerShell (Windows), tambahkan baris berikut pada `$PROFILE`:
 
 ```powershell
-$ENV:STARSHIP_CONFIG = "$HOME\.starship\config.toml"
+$ENV:STARSHIP_CONFIG = "$HOME\example\non\default\path\starship.toml"
+```
+
+Or for Cmd (Windows) would be adding this line to your `starship.lua`:
+
+```lua
+os.setenv('STARSHIP_CONFIG', 'C:\\Users\\user\\example\\non\\default\\path\\starship.toml')
 ```
 
 ### Logging
@@ -41,10 +47,16 @@ Secara bawaan, starship mencatat peringatan dan eror ke dalam sebuah file bernam
 export STARSHIP_CONFIG=~/.starship/cache
 ```
 
-Pada PowerShell (Windows), tambahkan baris berikut pada `$PROFILE`:
+Ekuivalen dalam PowerShell (Windows), tambahkan baris berikut pada `$PROFILE`:
 
 ```powershell
 $ENV:STARSHIP_CACHE = "$HOME\AppData\Local\Temp"
+```
+
+Or for Cmd (Windows) would be adding this line to your `starship.lua`:
+
+```lua
+os.setenv('STARSHIP_CACHE', 'C:\\Users\\user\\AppData\\Local\\Temp')
 ```
 
 ### Terminologi
@@ -143,7 +155,6 @@ Berikut adalah opsi konfigurasi dari list yang bersifat prompt-wide.
 | `command_timeout` | `500`                          | Batas waktu untuk perintah yang dijalankan starship (dalam milidetik). |
 | `add_newline`     | `true`                         | Memasukkan baris kosong antara prompt shell.                           |
 
-
 ### Contoh
 
 ```toml
@@ -173,6 +184,7 @@ format = "$all"
 format = """
 $username\
 $hostname\
+$localip\
 $shlvl\
 $singularity\
 $kubernetes\
@@ -188,6 +200,7 @@ $docker_context\
 $package\
 $cmake\
 $cobol\
+$container\
 $dart\
 $deno\
 $dotnet\
@@ -243,7 +256,7 @@ If you just want to extend the default format, you can use `$all`; modules you e
 
 ```toml
 # Move the directory to the second line
-format="$all$directory$character"
+format = "$all$directory$character"
 ```
 
 ## AWS
@@ -277,7 +290,7 @@ Ketika menggunakan [AWSume](https://awsu.me) profil dibaca dari variabel environ
 | symbol    |                  | Menyalin nilai dari opsi `symbol` |
 | style\* |                  | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -399,17 +412,16 @@ Opsi dari `display` merupakan sebuah array dari tabel berikut.
 #### Contoh
 
 ```toml
-[[battery.display]]  # "bold red" style and discharging_symbol when capacity is between 0% and 10%
+[[battery.display]] # "bold red" style and discharging_symbol when capacity is between 0% and 10%
 threshold = 10
 style = "bold red"
 
-[[battery.display]]  # "bold yellow" style and 💦 symbol when capacity is between 10% and 30%
+[[battery.display]] # "bold yellow" style and 💦 symbol when capacity is between 10% and 30%
 threshold = 30
 style = "bold yellow"
 discharging_symbol = "💦"
 
 # when capacity is over 30%, the battery indicator will not be displayed
-
 ```
 
 ## Karakter
@@ -425,13 +437,13 @@ Secara bawaan karakter hanya dapat mengganti warna. Jika kamu juga ingin menggan
 
 ::: peringatan
 
-`error_symbol` tidak didukung pada elvish dan nu shell.
+`error_symbol` is not supported on nu shell.
 
 :::
 
 ::: peringatan
 
-`vicmd_symbol` hanya didukung pada fish dan zsh.
+`vicmd_symbol` is only supported in cmd, fish and zsh.
 
 :::
 
@@ -510,7 +522,7 @@ Modul `cmake` menampilkan versi terkini dari [CMake](https://cmake.org/) yang te
 | symbol    |           | Menyalin nilai dari opsi `symbol` |
 | style\* |           | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ## COBOL / GNUCOBOL
 
@@ -540,7 +552,7 @@ The `cobol` module shows the currently installed version of COBOL. By default, t
 | symbol    |            | Menyalin nilai dari opsi `symbol` |
 | style\* |            | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ## Durasi Perintah
 
@@ -556,21 +568,16 @@ Pengguna Bash yang membutuhkan fungsi seperti preexec dapat menggunakan [kerangk
 
 ### Opsi
 
-| Opsi                 | Bawaan                        | Deskripsi                                                        |
-| -------------------- | ----------------------------- | ---------------------------------------------------------------- |
-| `min_tim`            | `2_000`                       | Durasi terpendek untuk menampilkan waktu (dalam milidetik).      |
-| `show_milliseconds`  | `false`                       | Tampilkan milidetik sebagai ganti detik untuk durasinya.         |
-| `format`             | `"took [$duration]($style) "` | Format dari modul.                                               |
-| `style`              | `"bold yellow"`               | Gaya penataan untuk modul.                                       |
-| `disabled`           | `false`                       | Menonaktifkan modul `cmd_duration`.                              |
-| `show_notifications` | `false`                       | Menampilkan notifikasi layar ketika perintah selesai.            |
-| `min_time_to_notify` | `45_000`                      | Durasi terpendek untuk menampilkan notifikasi (dalam milidetik). |
-
-::: saran
-
-Menampilkan notifikasi layar memerlukan starship dikembangkan dengan dukungan dari `rust-notify`. Periksa apakah starship kamu mendukung notifikasi dengan menjalankan `STARSHIP_LOG=debug starship module cmd_duration -d 60000` ketika `show_notifications` diatur menjadi `true`.
-
-:::
+| Opsi                   | Bawaan                        | Deskripsi                                                                                                                                                         |
+| ---------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `min_tim`              | `2_000`                       | Durasi terpendek untuk menampilkan waktu (dalam milidetik).                                                                                                       |
+| `show_milliseconds`    | `false`                       | Tampilkan milidetik sebagai ganti detik untuk durasinya.                                                                                                          |
+| `format`               | `"took [$duration]($style) "` | Format dari modul.                                                                                                                                                |
+| `style`                | `"bold yellow"`               | Gaya penataan untuk modul.                                                                                                                                        |
+| `disabled`             | `false`                       | Menonaktifkan modul `cmd_duration`.                                                                                                                               |
+| `show_notifications`   | `false`                       | Menampilkan notifikasi layar ketika perintah selesai.                                                                                                             |
+| `min_time_to_notify`   | `45_000`                      | Durasi terpendek untuk menampilkan notifikasi (dalam milidetik).                                                                                                  |
+| `notification_timeout` |                               | Duration to show notification for (in milliseconds). If unset, notification timeout will be determined by daemon. Not all notification daemons honor this option. |
 
 ### Variabel
 
@@ -579,7 +586,7 @@ Menampilkan notifikasi layar memerlukan starship dikembangkan dengan dukungan da
 | duration  | `16m40s` | Waktu yang dibutuhkan untuk menyelesaikan perintah |
 | style\* |          | Menyalin nilai dari opsi `style`                   |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -620,7 +627,7 @@ Hal ini tidak menahan pengubah (modifier) prompt dari conda sendiri, kamu mungki
 | symbol      |              | Menyalin nilai dari opsi `symbol` |
 | style\*   |              | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -629,6 +636,38 @@ Hal ini tidak menahan pengubah (modifier) prompt dari conda sendiri, kamu mungki
 
 [conda]
 format = "[$symbol$environment](dimmed green) "
+```
+
+## Container
+
+The `container` module displays a symbol and container name, if inside a container.
+
+### Opsi
+
+| Opsi       | Bawaan                               | Deskripsi                                 |
+| ---------- | ------------------------------------ | ----------------------------------------- |
+| `symbol`   | `"⬢"`                                | The symbol shown, when inside a container |
+| `style`    | `"bold red dimmed"`                  | Gaya penataan untuk modul.                |
+| `format`   | "[$symbol \\[$name\\]]($style) " | Format dari modul.                        |
+| `disabled` | `false`                              | Disables the `container` module.          |
+
+### Variabel
+
+| Variabel  | Contoh              | Deskripsi                         |
+| --------- | ------------------- | --------------------------------- |
+| name      | `fedora-toolbox:35` | The name of the container         |
+| symbol    |                     | Menyalin nilai dari opsi `symbol` |
+| style\* |                     | Menyalin nilai dari opsi `style`  |
+
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+
+### Contoh
+
+```toml
+# ~/.config/starship.toml
+
+[container]
+format = "[$symbol \\[$name\\]]($style) "
 ```
 
 ## Crystal
@@ -659,7 +698,7 @@ Modul `crystal` menampilkan versi terkini dari [Crystal](https://crystal-lang.or
 | symbol    |           | Menyalin nilai dari opsi `symbol` |
 | style\* |           | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -699,7 +738,7 @@ Modul `dart` menampilkan versi terkini dari [Dart](https://dart.dev/) yang terpa
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -713,20 +752,21 @@ format = "via [🔰 $version](bold red) "
 ## Deno
 
 Modul `deno` menampilkan versi terkini dari [Deno](https://deno.land/) yang terpasang. Secara bawaan, modul akan aktif jika beberapa syarat berikut telah terpenuhi:
-- Direktori terkini yang berisikan sebuah file `mod.ts`, `mod.js`, `deps.ts` atau `deps.js`
+
+- The current directory contains a `deno.json`, `deno.jsonc`, `mod.ts`, `mod.js`, `deps.ts` or `deps.js` file
 
 ### Opsi
 
-| Opsi                | Bawaan                                       | Deskripsi                                                                           |
-| ------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `format`            | `"via [$symbol($version )]($style)"`         | Format dari modul.                                                                  |
-| `version_format`    | `"v${raw}"`                                  | Format dari versi. Variabel yang tersedia adalah `raw`, `major`, `minor`, & `patch` |
-| `symbol`            | `🦕 "`                                        | Sebuah format string yang melambangkan simbol Deno                                  |
-| `detect_extensions` | `[]`                                         | Ekstensi mana yang sebaiknya memicu modul ini.                                      |
-| `detect_files`      | `["mod.ts", "mod.js", "deps.ts", "deps.js"]` | filenames mana yang sebaiknya memicu modul ini.                                     |
-| `detect_folders`    | `[]`                                         | Folder mana yang sebaiknya memicul modul ini.                                       |
-| `style`             | `"green bold"`                               | Gaya penataan untuk modul.                                                          |
-| `disabled`          | `false`                                      | Menonaktifkan modul `deno`.                                                         |
+| Opsi                | Bawaan                                                                  | Deskripsi                                                                           |
+| ------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `format`            | `"via [$symbol($version )]($style)"`                                    | Format dari modul.                                                                  |
+| `version_format`    | `"v${raw}"`                                                             | Format dari versi. Variabel yang tersedia adalah `raw`, `major`, `minor`, & `patch` |
+| `symbol`            | `🦕 "`                                                                   | Sebuah format string yang melambangkan simbol Deno                                  |
+| `detect_extensions` | `[]`                                                                    | Ekstensi mana yang sebaiknya memicu modul ini.                                      |
+| `detect_files`      | `["deno.json", "deno.jsonc", "mod.ts", "mod.js", "deps.ts", "deps.js"]` | filenames mana yang sebaiknya memicu modul ini.                                     |
+| `detect_folders`    | `[]`                                                                    | Folder mana yang sebaiknya memicul modul ini.                                       |
+| `style`             | `"green bold"`                                                          | Gaya penataan untuk modul.                                                          |
+| `disabled`          | `false`                                                                 | Menonaktifkan modul `deno`.                                                         |
 
 ### Variabel
 
@@ -755,18 +795,19 @@ Sebagai contoh, untuk `~/Dev/Nix/nixpkgs/pkgs` dimana `nixpkgs` merupakan root r
 
 ### Opsi
 
-| Opsi                | Bawaan                                             | Deskripsi                                                                              |
-| ------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `truncation_length` | `3`                                                | Jumlah dari folder induk yang harusnya disingkat oleh direktori saat ini.              |
-| `truncate_to_repo`  | `true`                                             | Apakah harus menyingkat root dari git repo tempatmu berada saat ini.                   |
-| `format`            | `"[$path]($style)[$read_only]($read_only_style) "` | Format dari modul.                                                                     |
-| `style`             | `"bold cyan"`                                      | Gaya penataan untuk modul.                                                             |
-| `disabled`          | `false`                                            | Menonaktifkan modul `directory`.                                                       |
-| `read_only`         | `"🔒"`                                              | Simbol yang mengindikasikan direktori saat ini bersifat read only.                     |
-| `read_only_style`   | `"red"`                                            | Corak gaya untuk simbol read only.                                                     |
-| `truncation_symbol` | `""`                                               | Simbol untuk awalan jalur yang disingkat. misalnya: ".../"                             |
-| `repo_root_style`   | `None`                                             | The style for the root of the git repo when `truncate_to_repo` option is set to false. |
-| `home_symbol`       | `"~"`                                              | Simbol yang mengindikasikan direktori home.                                            |
+| Opsi                | Bawaan                                             | Deskripsi                                                                               |
+| ------------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `truncation_length` | `3`                                                | Jumlah dari folder induk yang harusnya disingkat oleh direktori saat ini.               |
+| `truncate_to_repo`  | `true`                                             | Apakah harus menyingkat root dari git repo tempatmu berada saat ini.                    |
+| `format`            | `"[$path]($style)[$read_only]($read_only_style) "` | Format dari modul.                                                                      |
+| `style`             | `"bold cyan"`                                      | Gaya penataan untuk modul.                                                              |
+| `disabled`          | `false`                                            | Menonaktifkan modul `directory`.                                                        |
+| `read_only`         | `"🔒"`                                              | Simbol yang mengindikasikan direktori saat ini bersifat read only.                      |
+| `read_only_style`   | `"red"`                                            | Corak gaya untuk simbol read only.                                                      |
+| `truncation_symbol` | `""`                                               | Simbol untuk awalan jalur yang disingkat. misalnya: ".../"                              |
+| `repo_root_style`   | `None`                                             | The style for the root of the git repo when `truncate_to_repo` option is set to false.  |
+| `home_symbol`       | `"~"`                                              | Simbol yang mengindikasikan direktori home.                                             |
+| `use_os_path_sep`   | `true`                                             | Use the OS specific path seperator instead of always using `/` (e.g. `\` on Windows) |
 
 <details>
 <summary>Modul ini memilki beberapa opsi konfigurasi lanjutan yang mengontrol bagaimana direktori ditampilkan.</summary>
@@ -796,7 +837,7 @@ Sebagai contoh, untuk `~/Dev/Nix/nixpkgs/pkgs` dimana `nixpkgs` merupakan root r
 | path      | `"D:/Projects"`       | Direktori terkini                |
 | style\* | `"black bold dimmed"` | Menyalin nilai dari opsi `style` |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -833,7 +874,7 @@ The `docker_context` module shows the currently active [Docker context](https://
 | symbol    |                | Menyalin nilai dari opsi `symbol` |
 | style\* |                | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -888,7 +929,7 @@ Modul ini juga akan menampilkan Target Framework Moniker (<https://docs.microsof
 | symbol    |                  | Menyalin nilai dari opsi `symbol`                      |
 | style\* |                  | Menyalin nilai dari opsi `style`                       |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -929,7 +970,7 @@ Modul `elixir` menampilkan versi terkini dari [Elixir](https://elixir-lang.org/)
 | symbol      |         | Menyalin nilai dari opsi `symbol` |
 | style\*   |         | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -971,7 +1012,7 @@ Modul `elixir` menampilkan versi terkini dari [Elm](https://elm-lang.org/) yang 
 | symbol    |           | Menyalin nilai dari opsi `symbol` |
 | style\* |           | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -989,16 +1030,17 @@ Modul `env_var` menampilkan nilai terkini dari variabel environment yang dipilih
 - Opsi konfigurasi `variable` cocok dengan variabel environment yang ada
 - Opsi konfigurasi `variable` tidak didefinisikan, tapi opsi konfigurasi `default` yang didefinisikan
 
-
 Multi-variabel environment dapat ditampilkan dengan menggunakan `.`. (lihat contoh) Jika opsi konfigurasi `variable` tidak diset, modul akan menampilkan nilai variabel di bawah teks nama setelah karakter `.`.
 
 Contoh: konfigurasi berikut akan menampilkan nilai dari variabel USER environment
+
 ```toml
 # ~/.config/starship.toml
 
 [env_var.USER]
 default = "unknown user"
 ```
+
 :::
 
 ### Opsi
@@ -1019,7 +1061,7 @@ default = "unknown user"
 | symbol    |                                                   | Menyalin nilai dari opsi `symbol`      |
 | style\* | `black bold dimmed`                               | Menyalin nilai dari opsi `style`       |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1032,6 +1074,7 @@ default = "unknown shell"
 ```
 
 Menampilkan multi-variabel environment:
+
 ```toml
 # ~/.config/starship.toml
 
@@ -1070,7 +1113,7 @@ The `erlang` module shows the currently installed version of [Erlang/OTP](https:
 | symbol    |           | Menyalin nilai dari opsi `symbol` |
 | style\* |           | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1097,7 +1140,7 @@ The `fill` module fills any extra space on the line with a symbol. If multiple `
 
 ```toml
 # ~/.config/starship.toml
-format="AA $fill BB $fill CC"
+format = "AA $fill BB $fill CC"
 
 [fill]
 symbol = "-"
@@ -1108,7 +1151,6 @@ Produces a prompt that looks like:
 
 ```
 AA -------------------------------------------- BB -------------------------------------------- CC
-
 ```
 
 ## Google Cloud (`gcloud`)
@@ -1137,7 +1179,7 @@ The `gcloud` module shows the current configuration for [`gcloud`](https://cloud
 | symbol    |               | Menyalin nilai dari opsi `symbol`                                  |
 | style\* |               | Menyalin nilai dari opsi `style`                                   |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1199,7 +1241,7 @@ The `git_branch` module shows the active branch of the repo in your current dire
 | symbol        |          | Menyalin nilai dari opsi `symbol`                                                                      |
 | style\*     |          | Menyalin nilai dari opsi `style`                                                                       |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1235,7 +1277,7 @@ The `git_commit` module shows the current commit hash and also the tag (if any) 
 | hash      | `b703eb3` | The current git commit hash      |
 | style\* |           | Menyalin nilai dari opsi `style` |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1275,7 +1317,7 @@ The `git_state` module will show in directories which are part of a git reposito
 | progress_total   | `2`        | The total operation progress     |
 | style\*        |            | Menyalin nilai dari opsi `style` |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1316,7 +1358,7 @@ This module is disabled by default. To enable it, set `disabled` to `false` in y
 | added_style\*   |        | Mirrors the value of option `added_style`   |
 | deleted_style\* |        | Mirrors the value of option `deleted_style` |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1334,22 +1376,23 @@ The `git_status` module shows symbols representing the state of the repo in your
 
 ### Opsi
 
-| Opsi         | Bawaan                                          | Deskripsi                           |
-| ------------ | ----------------------------------------------- | ----------------------------------- |
-| `format`     | `'([\[$all_status$ahead_behind\]]($style) )'` | The default format for `git_status` |
-| `conflicted` | `"="`                                           | This branch has merge conflicts.    |
-| `ahead`      | `"⇡"`                                           | The format of `ahead`               |
-| `behind`     | `"⇣"`                                           | The format of `behind`              |
-| `diverged`   | `"⇕"`                                           | The format of `diverged`            |
-| `up_to_date` | `""`                                            | The format of `up_to_date`          |
-| `untracked`  | `"?"`                                           | The format of `untracked`           |
-| `stashed`    | `"$"`                                           | The format of `stashed`             |
-| `modified`   | `"!"`                                           | The format of `modified`            |
-| `staged`     | `"+"`                                           | The format of `staged`              |
-| `renamed`    | `"»"`                                           | The format of `renamed`             |
-| `deleted`    | `"✘"`                                           | The format of `deleted`             |
-| `style`      | `"bold red"`                                    | Gaya penataan untuk modul.          |
-| `disabled`   | `false`                                         | Disables the `git_status` module.   |
+| Opsi                | Bawaan                                          | Deskripsi                           |
+| ------------------- | ----------------------------------------------- | ----------------------------------- |
+| `format`            | `'([\[$all_status$ahead_behind\]]($style) )'` | The default format for `git_status` |
+| `conflicted`        | `"="`                                           | This branch has merge conflicts.    |
+| `ahead`             | `"⇡"`                                           | The format of `ahead`               |
+| `behind`            | `"⇣"`                                           | The format of `behind`              |
+| `diverged`          | `"⇕"`                                           | The format of `diverged`            |
+| `up_to_date`        | `""`                                            | The format of `up_to_date`          |
+| `untracked`         | `"?"`                                           | The format of `untracked`           |
+| `stashed`           | `"$"`                                           | The format of `stashed`             |
+| `modified`          | `"!"`                                           | The format of `modified`            |
+| `staged`            | `"+"`                                           | The format of `staged`              |
+| `renamed`           | `"»"`                                           | The format of `renamed`             |
+| `deleted`           | `"✘"`                                           | The format of `deleted`             |
+| `style`             | `"bold red"`                                    | Gaya penataan untuk modul.          |
+| `ignore_submodules` | `false`                                         | Ignore changes to submodules.       |
+| `disabled`          | `false`                                         | Disables the `git_status` module.   |
 
 ### Variabel
 
@@ -1368,7 +1411,7 @@ The following variables can be used in `format`:
 | `deleted`      | Displays `deleted` when a file's deletion has been added to the staging area.                                 |
 | style\*      | Menyalin nilai dari opsi `style`                                                                              |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 The following variables can be used in `diverged`:
 
@@ -1394,7 +1437,7 @@ ahead = "🏎💨"
 behind = "😰"
 diverged = "😵"
 up_to_date = "✓"
-untracked = "🤷‍"
+untracked = "🤷"
 stashed = "📦"
 modified = "📝"
 staged = '[++\($count\)](green)'
@@ -1447,7 +1490,7 @@ The `golang` module shows the currently installed version of [Go](https://golang
 | symbol    |           | Menyalin nilai dari opsi `symbol` |
 | style\* |           | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1486,7 +1529,7 @@ The `helm` module shows the currently installed version of [Helm](https://helm.s
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1513,12 +1556,12 @@ The `hostname` module shows the system hostname.
 
 ### Variabel
 
-| Variabel  | Contoh | Deskripsi                         |
-| --------- | ------ | --------------------------------- |
-| symbol    |        | Menyalin nilai dari opsi `symbol` |
-| style\* |        | Menyalin nilai dari opsi `style`  |
+| Variabel  | Contoh     | Deskripsi                        |
+| --------- | ---------- | -------------------------------- |
+| hostname  | `computer` | The hostname of the computer     |
+| style\* |            | Menyalin nilai dari opsi `style` |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1527,7 +1570,7 @@ The `hostname` module shows the system hostname.
 
 [hostname]
 ssh_only = false
-format =  "on [$hostname](bold red) "
+format = "on [$hostname](bold red) "
 trim_at = ".companyname.com"
 disabled = false
 ```
@@ -1560,7 +1603,7 @@ The `java` module shows the currently installed version of [Java](https://www.or
 | symbol    |        | Menyalin nilai dari opsi `symbol` |
 | style\* |        | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1573,7 +1616,7 @@ symbol = "🌟 "
 
 ## Jobs
 
-The `jobs` module shows the current number of jobs running. The module will be shown only if there are background jobs running. The module will show the number of jobs running if there are at least 2 jobs, or more than the `number_threshold` config value, if it exists. The module will show a symbol if there is at least 1 job, or more than the `symbol_threshold` config value, if it exists. You can set both values to 0 in order to *always* show the symbol and number of jobs, even if there are 0 jobs running.
+The `jobs` module shows the current number of jobs running. The module will be shown only if there are background jobs running. The module will show the number of jobs running if there are at least 2 jobs, or more than the `number_threshold` config value, if it exists. The module will show a symbol if there is at least 1 job, or more than the `symbol_threshold` config value, if it exists. You can set both values to 0 in order to _always_ show the symbol and number of jobs, even if there are 0 jobs running.
 
 The default functionality is:
 
@@ -1597,16 +1640,15 @@ The `threshold` option is deprecated, but if you want to use it, the module will
 
 | Opsi               | Bawaan                        | Deskripsi                                                                |
 | ------------------ | ----------------------------- | ------------------------------------------------------------------------ |
-| `threshold`\*    | `1`                           | Show number of jobs if exceeded.                                         |
+| `threshold`*       | `1`                           | Show number of jobs if exceeded.                                         |
 | `symbol_threshold` | `1`                           | Show `symbol` if the job count is at least `symbol_threshold`.           |
 | `number_threshold` | `2`                           | Show the number of jobs if the job count is at least `number_threshold`. |
 | `format`           | `"[$symbol$number]($style) "` | Format dari modul.                                                       |
 | `symbol`           | `"✦"`                         | The string used to represent the `symbol` variable.                      |
 | `style`            | `"bold blue"`                 | Gaya penataan untuk modul.                                               |
 | `disabled`         | `false`                       | Disables the `jobs` module.                                              |
- \*: This option is deprecated, please use the 
 
-`number_threshold` and `symbol_threshold` options instead.
+*: This option is deprecated, please use the `number_threshold` and `symbol_threshold` options instead.
 
 ### Variabel
 
@@ -1616,7 +1658,7 @@ The `threshold` option is deprecated, but if you want to use it, the module will
 | symbol    |        | Menyalin nilai dari opsi `symbol` |
 | style\* |        | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1658,7 +1700,7 @@ The `julia` module shows the currently installed version of [Julia](https://juli
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1667,6 +1709,39 @@ The `julia` module shows the currently installed version of [Julia](https://juli
 
 [julia]
 symbol = "∴ "
+```
+
+## localip
+
+The `localip` module shows the IPv4 address of the primary network interface.
+
+### Opsi
+
+| Opsi       | Bawaan                    | Deskripsi                                              |
+| ---------- | ------------------------- | ------------------------------------------------------ |
+| `ssh_only` | `true`                    | Only show IP address when connected to an SSH session. |
+| `format`   | `"[$localipv4]($style) "` | Format dari modul.                                     |
+| `style`    | `"bold yellow"`           | Gaya penataan untuk modul.                             |
+| `disabled` | `true`                    | Disables the `localip` module.                         |
+
+### Variabel
+
+| Variabel  | Contoh       | Deskripsi                         |
+| --------- | ------------ | --------------------------------- |
+| localipv4 | 192.168.1.13 | Contains the primary IPv4 address |
+| style\* |              | Menyalin nilai dari opsi `style`  |
+
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+
+### Contoh
+
+```toml
+# ~/.config/starship.toml
+
+[localip]
+ssh_only = false
+format = "@[$localipv4](bold red) "
+disabled = false
 ```
 
 ## Kotlin
@@ -1697,7 +1772,7 @@ The `kotlin` module shows the currently installed version of [Kotlin](https://ko
 | symbol    |           | Menyalin nilai dari opsi `symbol` |
 | style\* |           | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1745,7 +1820,7 @@ This module is disabled by default. To enable it, set `disabled` to `false` in y
 | symbol    |                      | Menyalin nilai dari opsi `symbol`        |
 | style\* |                      | Menyalin nilai dari opsi `style`         |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1831,7 +1906,7 @@ The `lua` module shows the currently installed version of [Lua](http://www.lua.o
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1875,7 +1950,7 @@ This module is disabled by default. To enable it, set `disabled` to `false` in y
 | symbol           | `🐏`           | Menyalin nilai dari opsi `symbol`                                  |
 | style\*        |               | Menyalin nilai dari opsi `style`                                   |
 
-\*: This variable can only be used as a part of a style string \*\*: The SWAP file information is only displayed if detected on the current system
+*: This variable can only be used as a part of a style string *\*: The SWAP file information is only displayed if detected on the current system
 
 ### Contoh
 
@@ -1912,7 +1987,7 @@ The `hg_branch` module shows the active branch of the repo in your current direc
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1955,7 +2030,7 @@ The `nim` module shows the currently installed version of [Nim](https://nim-lang
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -1991,7 +2066,7 @@ The `nix_shell` module shows the [nix-shell](https://nixos.org/guides/nix-pills/
 | symbol    |         | Menyalin nilai dari opsi `symbol` |
 | style\* |         | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2022,7 +2097,7 @@ The `nodejs` module shows the currently installed version of [Node.js](https://n
 | ------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------- |
 | `format`            | `"via [$symbol($version )]($style)"` | Format dari modul.                                                                                    |
 | `version_format`    | `"v${raw}"`                          | Format dari versi. Variabel yang tersedia adalah `raw`, `major`, `minor`, & `patch`                   |
-| `symbol`            | `" "`                               | A format string representing the symbol of Node.js.                                                   |
+| `symbol`            | `" "`                               | A format string representing the symbol of Node.js.                                                   |
 | `detect_extensions` | `["js", "mjs", "cjs", "ts"]`         | Ekstensi mana yang sebaiknya memicu modul ini.                                                        |
 | `detect_files`      | `["package.json", ".node-version"]`  | filenames mana yang sebaiknya memicu modul ini.                                                       |
 | `detect_folders`    | `["node_modules"]`                   | Folder mana yang sebaiknya memicul modul ini.                                                         |
@@ -2038,7 +2113,7 @@ The `nodejs` module shows the currently installed version of [Node.js](https://n
 | symbol    |            | Menyalin nilai dari opsi `symbol` |
 | style\* |            | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2085,7 +2160,7 @@ The `ocaml` module shows the currently installed version of [OCaml](https://ocam
 | symbol           |              | Menyalin nilai dari opsi `symbol`                                 |
 | style\*        |              | Menyalin nilai dari opsi `style`                                  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2118,7 +2193,7 @@ The `openstack` module shows the current OpenStack cloud and project. The module
 | symbol    |        | Menyalin nilai dari opsi `symbol` |
 | style\* |        | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2133,7 +2208,7 @@ symbol = "☁️ "
 
 ## Package Version
 
-The `package` module is shown when the current directory is the repository for a package, and shows its current version. The module currently supports `npm`, `nimble`, `cargo`, `poetry`, `composer`, `gradle`, `julia`, `mix`, `helm` and `shards` packages.
+The `package` module is shown when the current directory is the repository for a package, and shows its current version. The module currently supports `npm`, `nimble`, `cargo`, `poetry`, `composer`, `gradle`, `julia`, `mix`, `helm`, `shards` and `dart` packages.
 
 - [**npm**](https://docs.npmjs.com/cli/commands/npm) – The `npm` package version is extracted from the `package.json` present in the current directory
 - [**Cargo**](https://doc.rust-lang.org/cargo/) – The `cargo` package version is extracted from the `Cargo.toml` present in the current directory
@@ -2150,6 +2225,7 @@ The `package` module is shown when the current directory is the repository for a
 - [**Shards**](https://crystal-lang.org/reference/the_shards_command/index.html) - The `shards` package version is extracted from the `shard.yml` present
 - [**V**](https://vlang.io) - The `vlang` package version is extracted from the `v.mod` present
 - [**SBT**](https://scala-sbt.org) - The `sbt` package version is extracted from the `build.sbt` present in the current directory
+- [**Dart**](https://pub.dev/) - The `dart` package version is extracted from the `pubspec.yaml` present in the current directory
 
 > ⚠️ The version being shown is that of the package whose source code is in your current directory, not your package manager.
 
@@ -2172,7 +2248,7 @@ The `package` module is shown when the current directory is the repository for a
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2252,7 +2328,7 @@ The `php` module shows the currently installed version of [PHP](https://www.php.
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2265,7 +2341,7 @@ format = "via [🔹 $version](147 bold) "
 
 ## Pulumi
 
-The `pulumi` module shows the currently selected [Pulumi Stack](https://www.pulumi.com/docs/intro/concepts/stack/) and version.
+The `pulumi` module shows the current username, selected [Pulumi Stack](https://www.pulumi.com/docs/intro/concepts/stack/), and version.
 
 ::: saran
 
@@ -2280,13 +2356,13 @@ Secara bawaan, modul akan aktif jika beberapa syarat berikut telah terpenuhi:
 
 ### Opsi
 
-| Opsi             | Bawaan                           | Deskripsi                                                                           |
-| ---------------- | -------------------------------- | ----------------------------------------------------------------------------------- |
-| `format`         | `"via [$symbol$stack]($style) "` | The format string for the module.                                                   |
-| `version_format` | `"v${raw}"`                      | Format dari versi. Variabel yang tersedia adalah `raw`, `major`, `minor`, & `patch` |
-| `symbol`         | `" "`                           | A format string shown before the Pulumi stack.                                      |
-| `style`          | `"bold 5"`                       | Gaya penataan untuk modul.                                                          |
-| `disabled`       | `false`                          | Disables the `pulumi` module.                                                       |
+| Opsi             | Bawaan                                       | Deskripsi                                                                           |
+| ---------------- | -------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `format`         | `"via [$symbol($username@)$stack]($style) "` | The format string for the module.                                                   |
+| `version_format` | `"v${raw}"`                                  | Format dari versi. Variabel yang tersedia adalah `raw`, `major`, `minor`, & `patch` |
+| `symbol`         | `" "`                                       | A format string shown before the Pulumi stack.                                      |
+| `style`          | `"bold 5"`                                   | Gaya penataan untuk modul.                                                          |
+| `disabled`       | `false`                                      | Disables the `pulumi` module.                                                       |
 
 ### Variabel
 
@@ -2294,10 +2370,11 @@ Secara bawaan, modul akan aktif jika beberapa syarat berikut telah terpenuhi:
 | --------- | ---------- | --------------------------------- |
 | version   | `v0.12.24` | The version of `pulumi`           |
 | stack     | `dev`      | The current Pulumi stack          |
+| username  | `alice`    | The current Pulumi username       |
 | symbol    |            | Menyalin nilai dari opsi `symbol` |
 | style\* |            | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2317,7 +2394,6 @@ format = "[🛥 ($version )$stack]($style) "
 [pulumi]
 symbol = "🛥 "
 format = "[$symbol$stack]($style) "
-
 ```
 
 ## PureScript
@@ -2348,7 +2424,7 @@ The `purescript` module shows the currently installed version of [PureScript](ht
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2517,7 +2593,7 @@ By default the `red` module shows the currently installed version of [Red](https
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2561,7 +2637,7 @@ Starship gets the current Ruby version by running `ruby -v`.
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2600,7 +2676,7 @@ By default the `rust` module shows the currently installed version of [Rust](htt
 | symbol    |                   | Menyalin nilai dari opsi `symbol` |
 | style\* |                   | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2640,7 +2716,7 @@ The `scala` module shows the currently installed version of [Scala](https://www.
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2673,6 +2749,8 @@ This module is disabled by default. To enable it, set `disabled` to `false` in y
 | `elvish_indicator`     | `esh`                     | A format string used to represent elvish.                    |
 | `tcsh_indicator`       | `tsh`                     | A format string used to represent tcsh.                      |
 | `xonsh_indicator`      | `xsh`                     | A format string used to represent xonsh.                     |
+| `cmd_indicator`        | `cmd`                     | A format string used to represent cmd.                       |
+| `nu_indicator`         | `nu`                      | A format string used to represent nu.                        |
 | `unknown_indicator`    |                           | The default value to be displayed when the shell is unknown. |
 | `format`               | `"[$indicator]($style) "` | Format dari modul.                                           |
 | `style`                | `"white bold"`            | Gaya penataan untuk modul.                                   |
@@ -2685,7 +2763,7 @@ This module is disabled by default. To enable it, set `disabled` to `false` in y
 | indicator |        | Mirrors the value of `indicator` for currently used shell. |
 | style\* |        | Menyalin nilai dari opsi `style`.                          |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2723,7 +2801,7 @@ The `shlvl` module shows the current [`SHLVL`](https://tldp.org/LDP/abs/html/int
 | symbol    |        | Menyalin nilai dari opsi `symbol` |
 | style\* |        | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2757,7 +2835,7 @@ The `singularity` module shows the current [Singularity](https://sylabs.io/singu
 | symbol    |              | Menyalin nilai dari opsi `symbol` |
 | style\* |              | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2770,7 +2848,7 @@ format = '[📦 \[$env\]]($style) '
 
 ## Status
 
-The `status` module displays the exit code of the previous command. The module will be shown only if the exit code is not `0`.
+The `status` module displays the exit code of the previous command. The module will be shown only if the exit code is not `0`. The status code will cast to a signed 32-bit integer.
 
 ::: saran
 
@@ -2778,7 +2856,7 @@ This module is disabled by default. To enable it, set `disabled` to `false` in y
 
 :::
 
-::: warning This module is not supported on elvish and nu shell. :::
+::: warning This module is not supported on nu shell. :::
 
 ### Opsi
 
@@ -2795,7 +2873,7 @@ This module is disabled by default. To enable it, set `disabled` to `false` in y
 | `recognize_signal_code` | `true`                                                                               | Enable signal mapping from exit code                    |
 | `map_symbol`            | `false`                                                                              | Enable symbols mapping from exit code                   |
 | `pipestatus`            | `false`                                                                              | Enable pipestatus reporting                             |
-| `pipestatus_separator`  | `|`                                                                                  | The symbol that separate in pipe program exit codes     |
+| `pipestatus_separator`  | `|`                                                                                  |                                                         |
 | `pipestatus_format`     | `\\[$pipestatus\\] => [$symbol$common_meaning$signal_name$maybe_int]($style)` | The format of the module when the command is a pipeline |
 | `disabled`              | `true`                                                                               | Disables the `status` module.                           |
 
@@ -2804,6 +2882,7 @@ This module is disabled by default. To enable it, set `disabled` to `false` in y
 | Variabel       | Contoh  | Deskripsi                                                                                   |
 | -------------- | ------- | ------------------------------------------------------------------------------------------- |
 | status         | `127`   | The exit code of the last command                                                           |
+| hex_status     | `0x7F`  | The exit code of the last command in hex                                                    |
 | int            | `127`   | The exit code of the last command                                                           |
 | common_meaning | `ERROR` | Meaning of the code if not a signal                                                         |
 | signal_number  | `9`     | Signal number corresponding to the exit code, only if signalled                             |
@@ -2813,12 +2892,11 @@ This module is disabled by default. To enable it, set `disabled` to `false` in y
 | symbol         |         | Menyalin nilai dari opsi `symbol`                                                           |
 | style\*      |         | Menyalin nilai dari opsi `style`                                                            |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
 ```toml
-
 # ~/.config/starship.toml
 
 [status]
@@ -2827,7 +2905,6 @@ symbol = "🔴"
 format = '[\[$symbol $common_meaning$signal_name$maybe_int\]]($style) '
 map_symbol = true
 disabled = false
-
 ```
 
 ## Sudo
@@ -2857,12 +2934,11 @@ This module is disabled by default. To enable it, set `disabled` to `false` in y
 | symbol    |        | Menyalin nilai dari opsi `symbol` |
 | style\* |        | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
 ```toml
-
 # ~/.config/starship.toml
 
 [sudo]
@@ -2908,7 +2984,7 @@ By default the `swift` module shows the currently installed version of [Swift](h
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -2956,7 +3032,7 @@ Secara bawaan, modul akan aktif jika beberapa syarat berikut telah terpenuhi:
 | symbol    |            | Menyalin nilai dari opsi `symbol` |
 | style\* |            | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -3009,7 +3085,7 @@ If `use_12hr` is `true`, then `time_format` defaults to `"%r"`. Otherwise, it de
 | time      | `13:08:10` | The current time.                |
 | style\* |            | Menyalin nilai dari opsi `style` |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -3096,7 +3172,7 @@ The `vagrant` module shows the currently installed version of [Vagrant](https://
 | symbol    |                  | Menyalin nilai dari opsi `symbol` |
 | style\* |                  | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -3110,6 +3186,7 @@ format = "via [⍱ $version](bold white) "
 ## V
 
 The `vlang` module shows you your currently installed version of [V](https://vlang.io/). Secara bawaan, modul akan aktif jika beberapa syarat berikut telah terpenuhi:
+
 - The current directory contains a file with `.v` extension
 - The current directory contains a `v.mod`, `vpkg.json` or `.vpkg-lock.json` file
 
@@ -3163,7 +3240,7 @@ The `vcsh` module displays the current active [VCSH](https://github.com/RichiH/v
 | symbol    |                                             | Menyalin nilai dari opsi `symbol` |
 | style\* | `black bold dimmed`                         | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -3201,7 +3278,7 @@ By default the the `zig` module shows the currently installed version of [Zig](h
 | symbol    |          | Menyalin nilai dari opsi `symbol` |
 | style\* |          | Menyalin nilai dari opsi `style`  |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 ### Contoh
 
@@ -3275,7 +3352,7 @@ Format strings can also contain shell specific prompt sequences, e.g. [Bash](htt
 | symbol    | Menyalin nilai dari opsi `symbol`      |
 | style\* | Menyalin nilai dari opsi `style`       |
 
-\*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
+*: Variabel tersebut hanya dapat digunakan sebagai bagian dari penataan string
 
 #### Custom command shell
 
@@ -3312,13 +3389,13 @@ Automatic detection of shells and proper parameters addition are currently imple
 # ~/.config/starship.toml
 
 [custom.foo]
-command = "echo foo"  # shows output of command
-files = ["foo"]       # can specify filters but wildcards are not supported
+command = "echo foo" # shows output of command
+files = ["foo"] # can specify filters but wildcards are not supported
 when = """ test "$HOME" == "$PWD" """
 format = " transcending [$output]($style)"
 
 [custom.time]
 command = "time /T"
-extensions = ["pst"]  # filters *.pst files
+extensions = ["pst"] # filters *.pst files
 shell = ["pwsh.exe", "-NoProfile", "-Command", "-"]
 ```

@@ -63,6 +63,10 @@ pub struct Context<'a> {
     #[cfg(test)]
     pub cmd: HashMap<&'a str, Option<CommandOutput>>,
 
+    /// a mock of the root directory
+    #[cfg(test)]
+    pub root_dir: tempfile::TempDir,
+
     #[cfg(feature = "battery")]
     pub battery_info_provider: &'a (dyn crate::modules::BatteryInfoProvider + Send + Sync),
 
@@ -154,6 +158,8 @@ impl<'a> Context<'a> {
             shell,
             target,
             width,
+            #[cfg(test)]
+            root_dir: tempfile::TempDir::new().unwrap(),
             #[cfg(test)]
             env: HashMap::new(),
             #[cfg(test)]
@@ -278,7 +284,7 @@ impl<'a> Context<'a> {
             "bash" => Shell::Bash,
             "fish" => Shell::Fish,
             "ion" => Shell::Ion,
-            "powershell" => Shell::PowerShell,
+            "powershell" | "pwsh" => Shell::PowerShell,
             "zsh" => Shell::Zsh,
             "elvish" => Shell::Elvish,
             "tcsh" => Shell::Tcsh,
@@ -569,7 +575,7 @@ pub enum Target {
 /// Properties as passed on from the shell as arguments
 #[derive(Parser, Debug)]
 pub struct Properties {
-    /// The status code of the previously run command
+    /// The status code of the previously run command as an unsigned or signed 32bit integer
     #[clap(short = 's', long = "status")]
     pub status_code: Option<String>,
     /// Bash, Fish and Zsh support returning codes for each process in a pipeline.
