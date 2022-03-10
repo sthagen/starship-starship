@@ -116,7 +116,7 @@ unpack() {
       return 0
       ;;
     *.zip)
-      flags=$(test -z "${VERBOSE-}" && echo "-qq" || echo "")
+      flags=$(test -z "${VERBOSE-}" && echo "-qqo" || echo "-o")
       UNZIP="${flags}" ${sudo} unzip "${archive}" -d "${bin_dir}"
       return 0
       ;;
@@ -263,7 +263,7 @@ confirm() {
 }
 
 check_bin_dir() {
-  bin_dir="$1"
+  bin_dir="${1%/}"
 
   if [ ! -d "$BIN_DIR" ]; then
     error "Installation location $BIN_DIR does not appear to be a directory"
@@ -276,7 +276,7 @@ check_bin_dir() {
   good=$(
     IFS=:
     for path in $PATH; do
-      if [ "${path}" = "${bin_dir}" ]; then
+      if [ "${path%/}" = "${bin_dir}" ]; then
         printf 1
         break
       fi
