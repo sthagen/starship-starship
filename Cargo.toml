@@ -36,7 +36,6 @@ notify = ["notify-rust"]
 
 [dependencies]
 ansi_term = "0.12.1"
-byte-unit = "4.0.14"
 chrono = "0.4.19"
 clap = { version = "3.1.18", features = ["derive", "cargo", "unicode"] }
 clap_complete = "3.1.4"
@@ -44,7 +43,7 @@ dirs-next = "2.0.0"
 dunce = "1.0.2"
 gethostname = "0.2.3"
 git2 = { version = "0.14.4", default-features = false }
-indexmap = { version = "1.8.1", features = ["serde"] }
+indexmap = { version = "1.8.2", features = ["serde"] }
 local_ipaddress = "0.1.3"
 log = { version = "0.4.16", features = ["std"] }
 # nofity-rust is optional (on by default) because the crate doesn't currently build for darwin with nix
@@ -70,7 +69,7 @@ shadow-rs = "0.11.0"
 # see: https://github.com/svartalf/rust-battery/issues/33
 starship-battery = { version = "0.7.9", optional = true }
 strsim = "0.10.0"
-sys-info = "0.9.1"
+systemstat = "=0.1.11"
 terminal_size = "0.1.17"
 toml = { version = "0.5.9", features = ["preserve_order"] }
 toml_edit = "0.14.4"
