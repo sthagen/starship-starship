@@ -61,9 +61,9 @@ rand = "0.8.5"
 rayon = "1.5.3"
 regex = "1.6.0"
 rust-ini = "0.18.0"
-semver = "1.0.12"
-serde = { version = "1.0.141", features = ["derive"] }
-serde_json = "1.0.82"
+semver = "1.0.13"
+serde = { version = "1.0.142", features = ["derive"] }
+serde_json = "1.0.83"
 sha-1 = "0.10.0"
 shadow-rs = "0.16.1"
 # battery is optional (on by default) because the crate doesn't currently build for Termux
