@@ -259,6 +259,7 @@ $lua\
 $nim\
 $nodejs\
 $ocaml\
+$opa\
 $perl\
 $php\
 $pulumi\
@@ -278,6 +279,7 @@ $zig\
 $buf\
 $nix_shell\
 $conda\
+$meson\
 $spack\
 $memory_usage\
 $aws\
@@ -325,6 +327,9 @@ is read from the `AWSU_PROFILE` env var.
 When using [AWSume](https://awsu.me) the profile
 is read from the `AWSUME_PROFILE` env var and the credentials expiration
 date is read from the `AWSUME_EXPIRATION` env var.
+
+When using [saml2aws](https://github.com/Versent/saml2aws) the expiration information obtained from `~/.aws/credentials`
+falls back to the `x_security_token_expires` key.
 
 ### Options
 
@@ -2384,6 +2389,45 @@ symbol = " "
 style = "bold dimmed green"
 ```
 
+## Meson
+
+The `meson` module shows the current Meson developer environment status.
+
+By default the Meson project name is displayed, if `$MESON_DEVENV` is set.
+
+### Options
+
+| Option              | Default                            | Description                                                                               |
+| ------------------- | ---------------------------------- | ----------------------------------------------------------------------------------------- |
+| `truncation_length` | `2^32 - 1`                         | Truncates a project name to `N` graphemes.                                                |
+| `truncation_symbol` | `"…"`                              | The symbol used to indicate a project name was truncated. You can use `""` for no symbol. |
+| `format`            | `"via [$symbol$project]($style) "` | The format for the module.                                                                |
+| `symbol`            | `"⬢ "`                             | The symbol used before displaying the project name.                                       |
+| `style`             | `"blue bold"`                      | The style for the module.                                                                 |
+| `disabled`          | `false`                            | Disables the `meson` module.                                                              |
+
+### Variables
+
+| Variable | Example    | Description                          |
+| -------- | ---------- | ------------------------------------ |
+| project  | `starship` | The current Meson project name       |
+| symbol   | `🐏`        | Mirrors the value of option `symbol` |
+| style\*  |            | Mirrors the value of option `style`  |
+
+*: This variable can only be used as a part of a style string
+
+### Example
+
+```toml
+# ~/.config/starship.toml
+
+[meson]
+disabled = false
+truncation_symbol = "--"
+symbol = " "
+style = "bold dimmed green"
+```
+
 ## Mercurial Branch
 
 The `hg_branch` module shows the active branch of the repo in your current directory.
@@ -2593,6 +2637,43 @@ By default the module will be shown if any of the following conditions are met:
 
 [ocaml]
 format = "via [🐪 $version]($style) "
+```
+
+## Open Policy Agent
+
+The `opa` module shows the currently installed version of the OPA tool.
+By default the module will be shown if the current directory contains a `.rego` file.
+
+### Options
+
+| Option              | Default                              | Description                                                               |
+| ------------------- | ------------------------------------ | ------------------------------------------------------------------------- |
+| `format`            | `"via [$symbol($version )]($style)"` | The format for the module.                                                |
+| `version_format`    | `"v${raw}"`                          | The version format. Available vars are `raw`, `major`, `minor`, & `patch` |
+| `symbol`            | `"🪖  "`                              | A format string representing the symbol of OPA.                           |
+| `detect_extensions` | `["rego"]`                           | Which extensions should trigger this module.                              |
+| `detect_files`      | `[]`                                 | Which filenames should trigger this module.                               |
+| `detect_folders`    | `[]`                                 | Which folders should trigger this module.                                 |
+| `style`             | `"bold blue"`                        | The style for the module.                                                 |
+| `disabled`          | `false`                              | Disables the `opa` module.                                                |
+
+### Variables
+
+| Variable | Example   | Description                          |
+| -------- | --------- | ------------------------------------ |
+| version  | `v0.44.0` | The version of `opa`                 |
+| symbol   |           | Mirrors the value of option `symbol` |
+| style\*  |           | Mirrors the value of option `style`  |
+
+*: This variable can only be used as a part of a style string
+
+### Example
+
+```toml
+# ~/.config/starship.toml
+
+[opa]
+format = "via [⛑️  $version](bold red) "
 ```
 
 ## OpenStack
@@ -3397,7 +3478,7 @@ To enable it, set `disabled` to `false` in your configuration file.
 | Option                      | Default                                                                       | Description                                                           |
 | --------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `format`                    | `"[$symbol$status]($style) "`                                                 | The format of the module                                              |
-| `symbol`                    | `"✖"`                                                                         | The symbol displayed on program error                                 |
+| `symbol`                    | `"❌"`                                                                         | The symbol displayed on program error                                 |
 | `success_symbol`            | `""`                                                                          | The symbol displayed on program success                               |
 | `not_executable_symbol`     | `"🚫"`                                                                         | The symbol displayed when file isn't executable                       |
 | `not_found_symbol`          | `"🔍"`                                                                         | The symbol displayed when the command can't be found                  |
