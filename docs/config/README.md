@@ -439,7 +439,7 @@ Enterprise_Naming_Scheme-voidstars = 'void**'
 
 ## Azure
 
-The `azure` module shows the current Azure Subscription. This is based on showing the name of the default subscription, as defined in the `~/.azure/azureProfile.json` file.
+The `azure` module shows the current Azure Subscription. This is based on showing the name of the default subscription or the username, as defined in the `~/.azure/azureProfile.json` file.
 
 ### Options
 
@@ -450,7 +450,9 @@ The `azure` module shows the current Azure Subscription. This is based on showin
 | `style`    | `'blue bold'`                            | The style used in the format.              |
 | `disabled` | `true`                                   | Disables the `azure` module.               |
 
-### Example
+### Examples
+
+#### Display Subscription Name
 
 ```toml
 # ~/.config/starship.toml
@@ -460,6 +462,18 @@ disabled = false
 format = 'on [$symbol($subscription)]($style) '
 symbol = 'ﴃ '
 style = 'blue bold'
+```
+
+#### Display Username
+
+```toml
+# ~/.config/starship.toml
+
+[azure]
+disabled = false
+format = "on [$symbol($username)]($style) "
+symbol = "ﴃ "
+style = "blue bold"
 ```
 
 ## Battery
@@ -1089,20 +1103,21 @@ it would have been `nixpkgs/pkgs`.
 
 ### Options
 
-| Option              | Default                                                                                                     | Description                                                                          |
-| ------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| `truncation_length` | `3`                                                                                                         | The number of parent folders that the current directory should be truncated to.      |
-| `truncate_to_repo`  | `true`                                                                                                      | Whether or not to truncate to the root of the git repo that you're currently in.     |
-| `format`            | `'[$path]($style)[$read_only]($read_only_style) '`                                                          | The format for the module.                                                           |
-| `style`             | `'bold cyan'`                                                                                               | The style for the module.                                                            |
-| `disabled`          | `false`                                                                                                     | Disables the `directory` module.                                                     |
-| `read_only`         | `'🔒'`                                                                                                       | The symbol indicating current directory is read only.                                |
-| `read_only_style`   | `'red'`                                                                                                     | The style for the read only symbol.                                                  |
-| `truncation_symbol` | `''`                                                                                                        | The symbol to prefix to truncated paths. eg: '…/'                                    |
-| `repo_root_style`   |                                                                                                             | The style for the root of the git repo. The default value is equivalent to `style`.  |
-| `repo_root_format`  | `'[$before_root_path]($style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) '` | The format of a git repo when `repo_root_style` is defined.                          |
-| `home_symbol`       | `'~'`                                                                                                       | The symbol indicating home directory.                                                |
-| `use_os_path_sep`   | `true`                                                                                                      | Use the OS specific path separator instead of always using `/` (e.g. `\` on Windows) |
+| Option                   | Default                                                                                                                      | Description                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `truncation_length`      | `3`                                                                                                                          | The number of parent folders that the current directory should be truncated to.                            |
+| `truncate_to_repo`       | `true`                                                                                                                       | Whether or not to truncate to the root of the git repo that you're currently in.                           |
+| `format`                 | `'[$path]($style)[$read_only]($read_only_style) '`                                                                           | The format for the module.                                                                                 |
+| `style`                  | `'bold cyan'`                                                                                                                | The style for the module.                                                                                  |
+| `disabled`               | `false`                                                                                                                      | Disables the `directory` module.                                                                           |
+| `read_only`              | `'🔒'`                                                                                                                        | The symbol indicating current directory is read only.                                                      |
+| `read_only_style`        | `'red'`                                                                                                                      | The style for the read only symbol.                                                                        |
+| `truncation_symbol`      | `''`                                                                                                                         | The symbol to prefix to truncated paths. eg: '…/'                                                          |
+| `before_repo_root_style` |                                                                                                                              | The style for the path segment above the root of the git repo. The default value is equivalent to `style`. |
+| `repo_root_style`        |                                                                                                                              | The style for the root of the git repo. The default value is equivalent to `style`.                        |
+| `repo_root_format`       | `'[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) '` | The format of a git repo when `before_repo_root_style` and `repo_root_style` is defined.                   |
+| `home_symbol`            | `'~'`                                                                                                                        | The symbol indicating home directory.                                                                      |
+| `use_os_path_sep`        | `true`                                                                                                                       | Use the OS specific path separator instead of always using `/` (e.g. `\` on Windows)                       |
 
 <details>
 <summary>This module has a few advanced configuration options that control how the directory is displayed.</summary>
