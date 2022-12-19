@@ -37,6 +37,12 @@ format = 'via [$symbol]($style)'
 [golang]
 format = 'via [$symbol]($style)'
 
+[gradle]
+format = 'via [$symbol]($style)'
+
+[haxe]
+format = 'via [$symbol]($style)'
+
 [helm]
 format = 'via [$symbol]($style)'
 
