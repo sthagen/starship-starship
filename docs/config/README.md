@@ -271,6 +271,7 @@ $git_state\
 $git_metrics\
 $git_status\
 $hg_branch\
+$pijul_channel\
 $docker_context\
 $package\
 $c\
@@ -1380,6 +1381,14 @@ The module will be shown only if any of the following conditions are met:
 
 ::: tip
 
+The order in which env_var modules are shown can be individually set by including
+`${env_var.foo}` in the top level `format` (as it includes a dot, you need to use `${...}`).
+By default, the `env_var` module will simply show all env_var modules in the order they were defined.
+
+:::
+
+::: tip
+
 Multiple environmental variables can be displayed by using a `.`. (see example)
 If the `variable` configuration option is not set, the module will display value of variable under the name of text after the `.` character.
 
@@ -1396,13 +1405,14 @@ default = 'unknown user'
 
 ### Options
 
-| Option     | Default                        | Description                                                                  |
-| ---------- | ------------------------------ | ---------------------------------------------------------------------------- |
-| `symbol`   | `''`                           | The symbol used before displaying the variable value.                        |
-| `variable` |                                | The environment variable to be displayed.                                    |
-| `default`  |                                | The default value to be displayed when the selected variable is not defined. |
-| `format`   | `'with [$env_value]($style) '` | The format for the module.                                                   |
-| `disabled` | `false`                        | Disables the `env_var` module.                                               |
+| Option        | Default                        | Description                                                                  |
+| ------------- | ------------------------------ | ---------------------------------------------------------------------------- |
+| `symbol`      | `""`                           | The symbol used before displaying the variable value.                        |
+| `variable`    |                                | The environment variable to be displayed.                                    |
+| `default`     |                                | The default value to be displayed when the selected variable is not defined. |
+| `format`      | `"with [$env_value]($style) "` | The format for the module.                                                   |
+| `description` | `"<env_var module>"`           | The description of the module that is shown when running `starship explain`. |
+| `disabled`    | `false`                        | Disables the `env_var` module.                                               |
 
 ### Variables
 
@@ -2634,26 +2644,27 @@ style = 'bold dimmed green'
 
 ## Mercurial Branch
 
-The `hg_branch` module shows the active branch of the repo in your current directory.
+The `hg_branch` module shows the active branch and topic of the repo in your current directory.
 
 ### Options
 
-| Option              | Default                          | Description                                                                                  |
-| ------------------- | -------------------------------- | -------------------------------------------------------------------------------------------- |
-| `symbol`            | `' '`                           | The symbol used before the hg bookmark or branch name of the repo in your current directory. |
-| `style`             | `'bold purple'`                  | The style for the module.                                                                    |
-| `format`            | `'on [$symbol$branch]($style) '` | The format for the module.                                                                   |
-| `truncation_length` | `2^63 - 1`                       | Truncates the hg branch name to `N` graphemes                                                |
-| `truncation_symbol` | `'…'`                            | The symbol used to indicate a branch name was truncated.                                     |
-| `disabled`          | `true`                           | Disables the `hg_branch` module.                                                             |
+| Option              | Default                                   | Description                                                                                  |
+| ------------------- | ----------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `symbol`            | `' '`                                    | The symbol used before the hg bookmark or branch name of the repo in your current directory. |
+| `style`             | `'bold purple'`                           | The style for the module.                                                                    |
+| `format`            | `'on [$symbol$branch(:$topic)]($style) '` | The format for the module.                                                                   |
+| `truncation_length` | `2^63 - 1`                                | Truncates the hg branch / topic name to `N` graphemes                                        |
+| `truncation_symbol` | `'…'`                                     | The symbol used to indicate a branch name was truncated.                                     |
+| `disabled`          | `true`                                    | Disables the `hg_branch` module.                                                             |
 
 ### Variables
 
-| Variable | Example  | Description                          |
-| -------- | -------- | ------------------------------------ |
-| branch   | `master` | The active mercurial branch          |
-| symbol   |          | Mirrors the value of option `symbol` |
-| style\*  |          | Mirrors the value of option `style`  |
+| Variable | Example   | Description                          |
+| -------- | --------- | ------------------------------------ |
+| branch   | `master`  | The active mercurial branch          |
+| topic    | `feature` | The active mercurial topic           |
+| symbol   |           | Mirrors the value of option `symbol` |
+| style\*  |           | Mirrors the value of option `style`  |
 
 *: This variable can only be used as a part of a style string
 
@@ -2718,14 +2729,16 @@ The module will be shown when inside a nix-shell environment.
 
 ### Options
 
-| Option       | Default                                      | Description                                           |
-| ------------ | -------------------------------------------- | ----------------------------------------------------- |
-| `format`     | `'via [$symbol$state( \($name\))]($style) '` | The format for the module.                            |
-| `symbol`     | `'❄️ '`                                       | A format string representing the symbol of nix-shell. |
-| `style`      | `'bold blue'`                                | The style for the module.                             |
-| `impure_msg` | `'impure'`                                   | A format string shown when the shell is impure.       |
-| `pure_msg`   | `'pure'`                                     | A format string shown when the shell is pure.         |
-| `disabled`   | `false`                                      | Disables the `nix_shell` module.                      |
+| Option        | Default                                      | Description                                                           |
+| ------------- | -------------------------------------------- | --------------------------------------------------------------------- |
+| `format`      | `'via [$symbol$state( \($name\))]($style) '` | The format for the module.                                            |
+| `symbol`      | `'❄️ '`                                       | A format string representing the symbol of nix-shell.                 |
+| `style`       | `'bold blue'`                                | The style for the module.                                             |
+| `impure_msg`  | `'impure'`                                   | A format string shown when the shell is impure.                       |
+| `pure_msg`    | `'pure'`                                     | A format string shown when the shell is pure.                         |
+| `unknown_msg` | `''`                                         | A format string shown when it is unknown if the shell is pure/impure. |
+| `disabled`    | `false`                                      | Disables the `nix_shell` module.                                      |
+| `heuristic`   | `false`                                      | Attempts to detect new `nix shell`-style shells with a heuristic.     |
 
 ### Variables
 
@@ -2747,6 +2760,7 @@ The module will be shown when inside a nix-shell environment.
 disabled = true
 impure_msg = '[impure shell](bold red)'
 pure_msg = '[pure shell](bold green)'
+unknown_msg = '[unknown shell](bold yellow)'
 format = 'via [☃️ $state( \($name\))](bold blue) '
 ```
 
@@ -3161,6 +3175,21 @@ By default the module will be shown if any of the following conditions are met:
 [php]
 format = 'via [🔹 $version](147 bold) '
 ```
+
+## Pijul Channel
+
+The `pijul_channel` module shows the active channel of the repo in your current directory.
+
+### Options
+
+| Option              | Default                           | Description                                                                          |
+| ------------------- | --------------------------------- | ------------------------------------------------------------------------------------ |
+| `symbol`            | `' '`                            | The symbol used before the pijul channel name of the repo in your current directory. |
+| `style`             | `'bold purple'`                   | The style for the module.                                                            |
+| `format`            | `'on [$symbol$channel]($style) '` | The format for the module.                                                           |
+| `truncation_length` | `2^63 - 1`                        | Truncates the pijul channel name to `N` graphemes                                    |
+| `truncation_symbol` | `'…'`                             | The symbol used to indicate a branch name was truncated.                             |
+| `disabled`          | `true`                            | Disables the `pijul` module.                                                         |
 
 ## Pulumi
 

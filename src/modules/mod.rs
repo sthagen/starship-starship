@@ -58,6 +58,7 @@ mod os;
 mod package;
 mod perl;
 mod php;
+mod pijul_channel;
 mod pulumi;
 mod purescript;
 mod python;
@@ -122,8 +123,8 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
             "elixir" => elixir::module(context),
             "elm" => elm::module(context),
             "erlang" => erlang::module(context),
+            "env_var" => env_var::module(None, context),
             "fennel" => fennel::module(context),
-            "env_var" => env_var::module(context),
             "fill" => fill::module(context),
             "gcloud" => gcloud::module(context),
             "git_branch" => git_branch::module(context),
@@ -159,6 +160,7 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
             "package" => package::module(context),
             "perl" => perl::module(context),
             "php" => php::module(context),
+            "pijul_channel" => pijul_channel::module(context),
             "pulumi" => pulumi::module(context),
             "purescript" => purescript::module(context),
             "python" => python::module(context),
@@ -183,8 +185,9 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
             "vagrant" => vagrant::module(context),
             "vcsh" => vcsh::module(context),
             "zig" => zig::module(context),
-            // Added for tests, avoid potential side effects in production code.
-            #[cfg(test)]
+            env if env.starts_with("env_var.") => {
+                env_var::module(env.strip_prefix("env_var."), context)
+            }
             custom if custom.starts_with("custom.") => {
                 // SAFETY: We just checked that the module starts with "custom."
                 custom::module(custom.strip_prefix("custom.").unwrap(), context)
@@ -233,7 +236,6 @@ pub fn description(module: &str) -> &'static str {
         "dotnet" => "The relevant version of the .NET Core SDK for the current directory",
         "elixir" => "The currently installed versions of Elixir and OTP",
         "elm" => "The currently installed version of Elm",
-        "env_var" => "Displays the current value of a selected environment variable",
         "erlang" => "Current OTP version",
         "fennel" => "The currently installed version of Fennel",
         "fill" => "Fills the remaining space on the line with a pad string",
@@ -249,7 +251,7 @@ pub fn description(module: &str) -> &'static str {
         "haskell" => "The selected version of the Haskell toolchain",
         "haxe" => "The currently installed version of Haxe",
         "helm" => "The currently installed version of Helm",
-        "hg_branch" => "The active branch of the repo in your current directory",
+        "hg_branch" => "The active branch and topic of the repo in your current directory",
         "hostname" => "The system hostname",
         "java" => "The currently installed version of Java",
         "jobs" => "The current number of jobs running",
@@ -273,6 +275,7 @@ pub fn description(module: &str) -> &'static str {
         "package" => "The package version of the current directory's project",
         "perl" => "The currently installed version of Perl",
         "php" => "The currently installed version of PHP",
+        "pijul_channel" => "The current channel of the repo in the current directory",
         "pulumi" => "The current username, stack, and installed version of Pulumi",
         "purescript" => "The currently installed version of PureScript",
         "python" => "The currently installed version of Python",

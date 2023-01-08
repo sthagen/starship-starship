@@ -750,7 +750,7 @@
     "hg_branch": {
       "default": {
         "disabled": true,
-        "format": "on [$symbol$branch]($style) ",
+        "format": "on [$symbol$branch(:$topic)]($style) ",
         "style": "bold purple",
         "symbol": " ",
         "truncation_length": 9223372036854775807,
@@ -989,10 +989,12 @@
       "default": {
         "disabled": false,
         "format": "via [$symbol$state( \\($name\\))]($style) ",
+        "heuristic": false,
         "impure_msg": "impure",
         "pure_msg": "pure",
         "style": "bold blue",
-        "symbol": "❄️  "
+        "symbol": "❄️  ",
+        "unknown_msg": ""
       },
       "allOf": [
         {
@@ -1210,6 +1212,21 @@
       "allOf": [
         {
           "$ref": "#/definitions/PhpConfig"
+        }
+      ]
+    },
+    "pijul_channel": {
+      "default": {
+        "disabled": true,
+        "format": "on [$symbol$channel]($style) ",
+        "style": "bold purple",
+        "symbol": " ",
+        "truncation_length": 9223372036854775807,
+        "truncation_symbol": "…"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PijulConfig"
         }
       ]
     },
@@ -2832,6 +2849,10 @@
         "disabled": {
           "default": false,
           "type": "boolean"
+        },
+        "description": {
+          "default": "<env_var module>",
+          "type": "string"
         }
       },
       "additionalProperties": false
@@ -3531,7 +3552,7 @@
           "type": "string"
         },
         "format": {
-          "default": "on [$symbol$branch]($style) ",
+          "default": "on [$symbol$branch(:$topic)]($style) ",
           "type": "string"
         },
         "truncation_length": {
@@ -4066,7 +4087,15 @@
           "default": "pure",
           "type": "string"
         },
+        "unknown_msg": {
+          "default": "",
+          "type": "string"
+        },
         "disabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "heuristic": {
           "default": false,
           "type": "boolean"
         }
@@ -4477,6 +4506,37 @@
           "items": {
             "type": "string"
           }
+        }
+      },
+      "additionalProperties": false
+    },
+    "PijulConfig": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "default": " ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold purple",
+          "type": "string"
+        },
+        "format": {
+          "default": "on [$symbol$channel]($style) ",
+          "type": "string"
+        },
+        "truncation_length": {
+          "default": 9223372036854775807,
+          "type": "integer",
+          "format": "int64"
+        },
+        "truncation_symbol": {
+          "default": "…",
+          "type": "string"
+        },
+        "disabled": {
+          "default": true,
+          "type": "boolean"
         }
       },
       "additionalProperties": false
