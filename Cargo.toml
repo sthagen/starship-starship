@@ -43,8 +43,8 @@ git-repository-faster = ["git-features/zlib-stock", "git-repository/fast-sha1"]
 
 [dependencies]
 chrono = { version = "0.4.23", default-features = false, features = ["clock", "std", "wasmbind"] }
-clap = { version = "4.1.1", features = ["derive", "cargo", "unicode"] }
-clap_complete = "4.1.0"
+clap = { version = "4.1.4", features = ["derive", "cargo", "unicode"] }
+clap_complete = "4.1.1"
 dirs-next = "2.0.0"
 dunce = "1.0.3"
 gethostname = "0.4.1"
@@ -62,8 +62,8 @@ open = "3.2.0"
 # update os module config and tests when upgrading os_info
 os_info = "3.5.1"
 path-slash = "0.2.1"
-pest = "2.5.3"
-pest_derive = "2.5.3"
+pest = "2.5.4"
+pest_derive = "2.5.4"
 quick-xml = "0.27.1"
 rand = "0.8.5"
 rayon = "1.6.1"
@@ -78,7 +78,7 @@ shadow-rs = { version = "0.20.0", default-features = false }
 # see: https://github.com/svartalf/rust-battery/issues/33
 starship-battery = { version = "0.7.9", optional = true }
 strsim = "0.10.0"
-systemstat = "=0.2.2"
+systemstat = "=0.2.3"
 terminal_size = "0.2.3"
 toml = { version = "0.5.11", features = ["preserve_order"] }
 toml_edit = "0.17.1"
