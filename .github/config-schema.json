@@ -504,6 +504,21 @@
         }
       ]
     },
+    "fossil_branch": {
+      "default": {
+        "disabled": true,
+        "format": "on [$symbol$branch]($style) ",
+        "style": "bold purple",
+        "symbol": " ",
+        "truncation_length": 9223372036854775807,
+        "truncation_symbol": "…"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/FossilBranchConfig"
+        }
+      ]
+    },
     "gcloud": {
       "default": {
         "disabled": false,
@@ -1129,6 +1144,7 @@
           "NetBSD": "🚩 ",
           "NixOS": "❄️ ",
           "OpenBSD": "🐡 ",
+          "OpenCloudOS": "☁️ ",
           "OracleLinux": "🦴 ",
           "Pop": "🍭 ",
           "Raspbian": "🍓 ",
@@ -1140,6 +1156,7 @@
           "Ubuntu": "🎯 ",
           "Unknown": "❓ ",
           "Windows": "🪟 ",
+          "openEuler": "🦉 ",
           "openSUSE": "🦎 "
         }
       },
@@ -2981,6 +2998,37 @@
       },
       "additionalProperties": false
     },
+    "FossilBranchConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "on [$symbol$branch]($style) ",
+          "type": "string"
+        },
+        "symbol": {
+          "default": " ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold purple",
+          "type": "string"
+        },
+        "truncation_length": {
+          "default": 9223372036854775807,
+          "type": "integer",
+          "format": "int64"
+        },
+        "truncation_symbol": {
+          "default": "…",
+          "type": "string"
+        },
+        "disabled": {
+          "default": true,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
     "GcloudConfig": {
       "type": "object",
       "properties": {
@@ -4351,6 +4399,7 @@
             "NetBSD": "🚩 ",
             "NixOS": "❄️ ",
             "OpenBSD": "🐡 ",
+            "OpenCloudOS": "☁️ ",
             "OracleLinux": "🦴 ",
             "Pop": "🍭 ",
             "Raspbian": "🍓 ",
@@ -4362,6 +4411,7 @@
             "Ubuntu": "🎯 ",
             "Unknown": "❓ ",
             "Windows": "🪟 ",
+            "openEuler": "🦉 ",
             "openSUSE": "🦎 "
           },
           "type": "object",

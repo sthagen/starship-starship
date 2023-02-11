@@ -46,7 +46,7 @@ os.setenv('STARSHIP_CONFIG', 'C:\\Users\\user\\example\\non\\default\\path\\star
 
 ### Logging
 
-By default starship logs warnings and errors into a file named `~/.cache/starship/session_${STARSHIP_SESSION_KEY}.log`, where the session key is corresponding to a instance of your terminal.
+By default starship logs warnings and errors into a file named `~/.cache/starship/session_${STARSHIP_SESSION_KEY}.log`, where the session key is corresponding to an instance of your terminal.
 This, however can be changed using the `STARSHIP_CACHE` environment variable:
 
 ```sh
@@ -265,6 +265,7 @@ $singularity\
 $kubernetes\
 $directory\
 $vcsh\
+$fossil_branch\
 $git_branch\
 $git_commit\
 $git_state\
@@ -1143,7 +1144,7 @@ prefixes or development directories (i.e. Java). Note that this will disable the
 
 `fish_style_pwd_dir_length` interacts with the standard truncation options in a way that can be surprising at first: if it's non-zero,
 the components of the path that would normally be truncated are instead displayed with that many characters. For example, the path
-`/built/this/city/on/rock/and/roll`, which would normally be displayed as as `rock/and/roll`, would be displayed as
+`/built/this/city/on/rock/and/roll`, which would normally be displayed as `rock/and/roll`, would be displayed as
 `/b/t/c/o/rock/and/roll` with `fish_style_pwd_dir_length = 1`--the path components that would normally be removed are displayed with
 a single character. For `fish_style_pwd_dir_length = 2`, it would be `/bu/th/ci/on/rock/and/roll`.
 
@@ -1554,6 +1555,42 @@ Produces a prompt that looks like:
 
 ```
 AA -------------------------------------------- BB -------------------------------------------- CC
+```
+
+## Fossil Branch
+
+The `fossil_branch` module shows the name of the active branch of the check-out in your current directory.
+
+### Options
+
+| Option              | Default                          | Description                                                                              |
+| ------------------- | -------------------------------- | ---------------------------------------------------------------------------------------- |
+| `format`            | `'on [$symbol$branch]($style) '` | The format for the module. Use `'$branch'` to refer to the current branch name.          |
+| `symbol`            | `' '`                           | The symbol used before the branch name of the check-out in your current directory.       |
+| `style`             | `'bold purple'`                  | The style for the module.                                                                |
+| `truncation_length` | `2^63 - 1`                       | Truncates a Fossil branch name to `N` graphemes                                          |
+| `truncation_symbol` | `'…'`                            | The symbol used to indicate a branch name was truncated. You can use `''` for no symbol. |
+| `disabled`          | `true`                           | Disables the `fossil_branch` module.                                                     |
+
+### Variables
+
+| Variable | Example | Description                          |
+| -------- | ------- | ------------------------------------ |
+| branch   | `trunk` | The active Fossil branch             |
+| symbol   |         | Mirrors the value of option `symbol` |
+| style\*  |         | Mirrors the value of option `style`  |
+
+*: This variable can only be used as a part of a style string
+
+### Example
+
+```toml
+# ~/.config/starship.toml
+
+[fossil_branch]
+symbol = '🦎 '
+truncation_length = 4
+truncation_symbol = ''
 ```
 
 ## Google Cloud (`gcloud`)
@@ -2991,6 +3028,8 @@ Mint = "🌿 "
 NetBSD = "🚩 "
 NixOS = "❄️ "
 OpenBSD = "🐡 "
+OpenCloudOS = "☁️ "
+openEuler = "🦉 "
 openSUSE = "🦎 "
 OracleLinux = "🦴 "
 Pop = "🍭 "
@@ -3830,18 +3869,18 @@ To enable it, set `disabled` to `false` in your configuration file.
 
 ### Variables
 
-| Variable       | Example | Description                                                                                 |
-| -------------- | ------- | ------------------------------------------------------------------------------------------- |
-| status         | `127`   | The exit code of the last command                                                           |
-| hex_status     | `0x7F`  | The exit code of the last command in hex                                                    |
-| int            | `127`   | The exit code of the last command                                                           |
-| common_meaning | `ERROR` | Meaning of the code if not a signal                                                         |
-| signal_number  | `9`     | Signal number corresponding to the exit code, only if signalled                             |
-| signal_name    | `KILL`  | Name of the signal corresponding to the exit code, only if signalled                        |
-| maybe_int      | `7`     | Contains the exit code number when no meaning has been found                                |
-| pipestatus     |         | Rendering of in pipeline programs's exit codes, this is only available in pipestatus_format |
-| symbol         |         | Mirrors the value of option `symbol`                                                        |
-| style\*        |         | Mirrors the value of option `style`                                                         |
+| Variable       | Example | Description                                                                                |
+| -------------- | ------- | ------------------------------------------------------------------------------------------ |
+| status         | `127`   | The exit code of the last command                                                          |
+| hex_status     | `0x7F`  | The exit code of the last command in hex                                                   |
+| int            | `127`   | The exit code of the last command                                                          |
+| common_meaning | `ERROR` | Meaning of the code if not a signal                                                        |
+| signal_number  | `9`     | Signal number corresponding to the exit code, only if signalled                            |
+| signal_name    | `KILL`  | Name of the signal corresponding to the exit code, only if signalled                       |
+| maybe_int      | `7`     | Contains the exit code number when no meaning has been found                               |
+| pipestatus     |         | Rendering of in pipeline programs' exit codes, this is only available in pipestatus_format |
+| symbol         |         | Mirrors the value of option `symbol`                                                       |
+| style\*        |         | Mirrors the value of option `style`                                                        |
 
 *: This variable can only be used as a part of a style string
 
@@ -4218,7 +4257,7 @@ format = '[🆅 $repo](bold blue) '
 
 ## Zig
 
-By default the the `zig` module shows the currently installed version of [Zig](https://ziglang.org/).
+By default the `zig` module shows the currently installed version of [Zig](https://ziglang.org/).
 The module will be shown if any of the following conditions are met:
 
 - The current directory contains a `.zig` file
