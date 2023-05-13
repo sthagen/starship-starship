@@ -44,7 +44,7 @@ gix-faster = ["gix-features/zlib-stock", "gix/fast-sha1"]
 [dependencies]
 chrono = { version = "0.4.24", default-features = false, features = ["clock", "std", "wasmbind"] }
 clap = { version = "4.2.7", features = ["derive", "cargo", "unicode"] }
-clap_complete = "4.2.1"
+clap_complete = "4.2.3"
 dirs-next = "2.0.0"
 dunce = "1.0.4"
 gethostname = "0.4.2"
@@ -67,10 +67,10 @@ pest_derive = "2.6.0"
 quick-xml = "0.28.2"
 rand = "0.8.5"
 rayon = "1.7.0"
-regex = "1.8.1"
-rust-ini = "0.18.0"
+regex = { version = "1.8.1", default-features = false, features = ["perf", "std", "unicode-perl"] }
+rust-ini = "0.19.0"
 semver = "1.0.17"
-serde = { version = "1.0.162", features = ["derive"] }
+serde = { version = "1.0.163", features = ["derive"] }
 serde_json = "1.0.96"
 sha1 = "0.10.5"
 shadow-rs = { version = "0.21.0", default-features = false }
@@ -85,7 +85,7 @@ toml_edit = "0.19.8"
 unicode-segmentation = "1.10.1"
 unicode-width = "0.1.10"
 urlencoding = "2.1.2"
-versions = "4.1.0"
+versions = "5.0.0"
 which = "4.4.0"
 yaml-rust = "0.4.5"
 

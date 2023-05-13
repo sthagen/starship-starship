@@ -356,7 +356,7 @@ format = '$all$directory$character'
 The `aws` module shows the current AWS region and profile and an expiration timer when using temporary credentials.
 The output of the module uses the `AWS_REGION`, `AWS_DEFAULT_REGION`, and `AWS_PROFILE` env vars and the `~/.aws/config` and `~/.aws/credentials` files as required.
 
-The module will display a profile only if its credentials are present in `~/.aws/credentials` or if a `credential_process` or `sso_start_url` are defined in `~/.aws/config`. Alternatively, having any of the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, or `AWS_SESSION_TOKEN` env vars defined will also suffice.
+The module will display a profile only if its credentials are present in `~/.aws/credentials` or if a `credential_process`, `sso_start_url`, or `sso_session` are defined in `~/.aws/config`. Alternatively, having any of the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, or `AWS_SESSION_TOKEN` env vars defined will also suffice.
 If the option `force_display` is set to `true`, all available information will be displayed even if no credentials per the conditions above are detected.
 
 When using [aws-vault](https://github.com/99designs/aws-vault) the profile
@@ -452,7 +452,7 @@ The `azure` module shows the current Azure Subscription. This is based on showin
 | Variable               | Default                                  | Description                                                                           |
 | ---------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------- |
 | `format`               | `'on [$symbol($subscription)]($style) '` | The format for the Azure module to render.                                            |
-| `symbol`               | `'ﴃ '`                                   | The symbol used in the format.                                                        |
+| `symbol`               | `'󰠅 '`                                   | The symbol used in the format.                                                        |
 | `style`                | `'blue bold'`                            | The style used in the format.                                                         |
 | `disabled`             | `true`                                   | Disables the `azure` module.                                                          |
 | `subscription_aliases` | `{}`                                     | Table of subscription name aliases to display in addition to Azure subscription name. |
@@ -467,7 +467,7 @@ The `azure` module shows the current Azure Subscription. This is based on showin
 [azure]
 disabled = false
 format = 'on [$symbol($subscription)]($style) '
-symbol = 'ﴃ '
+symbol = '󰠅 '
 style = 'blue bold'
 ```
 
@@ -479,7 +479,7 @@ style = 'blue bold'
 [azure]
 disabled = false
 format = "on [$symbol($username)]($style) "
-symbol = "ﴃ "
+symbol = "󰠅 "
 style = "blue bold"
 ```
 
@@ -501,11 +501,11 @@ The module is only visible when the device's battery is below 10%.
 
 | Option               | Default                           | Description                                         |
 | -------------------- | --------------------------------- | --------------------------------------------------- |
-| `full_symbol`        | `' '`                            | The symbol shown when the battery is full.          |
-| `charging_symbol`    | `' '`                            | The symbol shown when the battery is charging.      |
-| `discharging_symbol` | `' '`                            | The symbol shown when the battery is discharging.   |
-| `unknown_symbol`     | `' '`                            | The symbol shown when the battery state is unknown. |
-| `empty_symbol`       | `' '`                            | The symbol shown when the battery state is empty.   |
+| `full_symbol`        | `'󰁹 '`                            | The symbol shown when the battery is full.          |
+| `charging_symbol`    | `'󰂄 '`                            | The symbol shown when the battery is charging.      |
+| `discharging_symbol` | `'󰂃 '`                            | The symbol shown when the battery is discharging.   |
+| `unknown_symbol`     | `'󰁽 '`                            | The symbol shown when the battery state is unknown. |
+| `empty_symbol`       | `'󰂎 '`                            | The symbol shown when the battery state is empty.   |
 | `format`             | `'[$symbol$percentage]($style) '` | The format for the module.                          |
 | `display`            | [link](#battery-display)          | Display threshold and style for the module.         |
 | `disabled`           | `false`                           | Disables the `battery` module.                      |
@@ -1609,6 +1609,10 @@ truncation_symbol = ''
 The `gcloud` module shows the current configuration for [`gcloud`](https://cloud.google.com/sdk/gcloud) CLI.
 This is based on the `~/.config/gcloud/active_config` file and the `~/.config/gcloud/configurations/config_{CONFIG NAME}` file and the `CLOUDSDK_CONFIG` env var.
 
+When the module is enabled it will always be active, unless `detect_env_vars` has
+been set in which case the module will only be active be active when one of the
+environment variables has been set.
+
 ### Options
 
 | Option            | Default                                                  | Description                                                      |
@@ -1617,6 +1621,7 @@ This is based on the `~/.config/gcloud/active_config` file and the `~/.config/gc
 | `symbol`          | `'☁️  '`                                                  | The symbol used before displaying the current GCP profile.       |
 | `region_aliases`  | `{}`                                                     | Table of region aliases to display in addition to the GCP name.  |
 | `project_aliases` | `{}`                                                     | Table of project aliases to display in addition to the GCP name. |
+| `detect_env_vars` | `[]`                                                     | Which environmental variables should trigger this module         |
 | `style`           | `'bold blue'`                                            | The style for the module.                                        |
 | `disabled`        | `false`                                                  | Disables the `gcloud` module.                                    |
 
@@ -3741,7 +3746,7 @@ To enable it, set `disabled` to `false` in your configuration file.
 # ~/.config/starship.toml
 
 [shell]
-fish_indicator = ''
+fish_indicator = '󰈺 '
 powershell_indicator = '_'
 unknown_indicator = 'mystery shell'
 style = 'cyan bold'
