@@ -43,8 +43,8 @@ gix-faster = ["gix-features/zlib-stock", "gix/fast-sha1"]
 
 [dependencies]
 chrono = { version = "0.4.26", default-features = false, features = ["clock", "std", "wasmbind"] }
-clap = { version = "4.3.10", features = ["derive", "cargo", "unicode"] }
-clap_complete = "4.3.1"
+clap = { version = "4.3.11", features = ["derive", "cargo", "unicode"] }
+clap_complete = "4.3.2"
 dirs-next = "2.0.0"
 dunce = "1.0.4"
 gethostname = "0.4.3"
@@ -67,11 +67,11 @@ pest_derive = "2.7.0"
 quick-xml = "0.29.0"
 rand = "0.8.5"
 rayon = "1.7.0"
-regex = { version = "1.8.4", default-features = false, features = ["perf", "std", "unicode-perl"] }
+regex = { version = "1.9.1", default-features = false, features = ["perf", "std", "unicode-perl"] }
 rust-ini = "0.19.0"
 semver = "1.0.17"
-serde = { version = "1.0.164", features = ["derive"] }
-serde_json = "1.0.99"
+serde = { version = "1.0.167", features = ["derive"] }
+serde_json = "1.0.100"
 sha1 = "0.10.5"
 shadow-rs = { version = "0.23.0", default-features = false }
 # battery is optional (on by default) because the crate doesn't currently build for Termux
@@ -80,8 +80,8 @@ starship-battery = { version = "0.8.1", optional = true }
 strsim = "0.10.0"
 systemstat = "=0.2.3"
 terminal_size = "0.2.6"
-toml = { version = "0.7.5", features = ["preserve_order"] }
-toml_edit = "0.19.11"
+toml = { version = "0.7.6", features = ["preserve_order"] }
+toml_edit = "0.19.12"
 unicode-segmentation = "1.10.1"
 unicode-width = "0.1.10"
 urlencoding = "2.1.2"
