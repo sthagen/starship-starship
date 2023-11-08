@@ -70,7 +70,7 @@ rayon = "1.8.0"
 regex = { version = "1.10.2", default-features = false, features = ["perf", "std", "unicode-perl"] }
 rust-ini = "0.20.0"
 semver = "1.0.20"
-serde = { version = "1.0.190", features = ["derive"] }
+serde = { version = "1.0.192", features = ["derive"] }
 serde_json = "1.0.108"
 sha1 = "0.10.6"
 shadow-rs = { version = "0.24.1", default-features = false }
@@ -80,8 +80,8 @@ starship-battery = { version = "0.8.2", optional = true }
 strsim = "0.10.0"
 systemstat = "=0.2.3"
 terminal_size = "0.3.0"
-toml = { version = "0.8.6", features = ["preserve_order"] }
-toml_edit = "0.20.7"
+toml = { version = "0.8.8", features = ["preserve_order"] }
+toml_edit = "0.21.0"
 unicode-segmentation = "1.10.1"
 unicode-width = "0.1.11"
 urlencoding = "2.1.3"
