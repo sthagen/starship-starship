@@ -158,7 +158,7 @@ In the second part, which is enclosed in a `()`, is a [style string](#style-stri
 
 #### 風格字串
 
-Starship 內大多數的模組允許你設定他們的顯示風格。 這要透過一個條目 (通常叫做 `style`)，這個條目使用一個字串來進行設定。 這裡給幾個風格字串的例子，以及這些字串的功用。 對於完整語法的詳細說明，請參照 [進階設定指南](../advanced-config/)。
+Starship 內大多數的模組允許你設定他們的顯示風格。 這要透過一個條目 (通常叫做 `style`)，這個條目使用一個字串來進行設定。 這裡給幾個風格字串的例子，以及這些字串的功用。 For details on the full syntax, consult the [advanced config guide](../advanced-config/).
 
 - `'fg:green bg:blue'` sets green text on a blue background
 - `'bg:blue fg:bright-green'` sets bright green text on a blue background
@@ -197,16 +197,16 @@ detect_extensions = ['ts', '!video.ts', '!audio.ts']
 
 ### 選項
 
-| 選項                | 預設                           | 說明                                                                                                                                                                               |
-| ----------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `format`          | [連結](#default-prompt-format) | Configure the format of the prompt.                                                                                                                                              |
+| 選項                | 預設                           | 說明                                                                                                                                                                                 |
+| ----------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `format`          | [連結](#default-prompt-format) | Configure the format of the prompt.                                                                                                                                                |
 | `right_format`    | `''`                         | See [Enable Right Prompt](../advanced-config/#enable-right-prompt)                                                                                                                 |
-| `scan_timeout`    | `30`                         | Timeout for starship to scan files (in milliseconds).                                                                                                                            |
-| `command_timeout` | `500`                        | Timeout for commands executed by starship (in milliseconds).                                                                                                                     |
-| `add_newline`     | `true`                       | Inserts blank line between shell prompts.                                                                                                                                        |
-| `palette`         | `''`                         | Sets which color palette from `palettes` to use.                                                                                                                                 |
+| `scan_timeout`    | `30`                         | Timeout for starship to scan files (in milliseconds).                                                                                                                              |
+| `command_timeout` | `500`                        | Timeout for commands executed by starship (in milliseconds).                                                                                                                       |
+| `add_newline`     | `true`                       | Inserts blank line between shell prompts.                                                                                                                                          |
+| `palette`         | `''`                         | Sets which color palette from `palettes` to use.                                                                                                                                   |
 | `palettes`        | `{}`                         | Collection of color palettes that assign [colors](../advanced-config/#style-strings) to user-defined names. Note that color palettes cannot reference their own color definitions. |
-| `follow_symlinks` | `true`                       | Follows symlinks to check if they're directories; used in modules such as git.                                                                                                   |
+| `follow_symlinks` | `true`                       | Follows symlinks to check if they're directories; used in modules such as git.                                                                                                     |
 
 ::: tip
 
@@ -300,6 +300,7 @@ $php\
 $pulumi\
 $purescript\
 $python\
+$quarto\
 $raku\
 $rlang\
 $red\
@@ -619,11 +620,22 @@ The `bun` module shows the currently installed version of the [bun](https://bun.
 
 ### 範例
 
+#### Customize the format
+
 ```toml
 # ~/.config/starship.toml
 
 [bun]
 format = 'via [🍔 $version](bold green) '
+```
+
+#### Replace Node.js
+
+You can override the `detect_files` property of [the nodejs module](#nodejs) in your config so as to only show the bun runtime:
+
+```
+[nodejs]
+detect_files = ['package.json', '.node-version', '!bunfig.toml', '!bun.lockb']
 ```
 
 ## C
@@ -1888,7 +1900,7 @@ The following variables can be used in `format`:
 
 | 變數             | 說明                                                                                                            |
 | -------------- | ------------------------------------------------------------------------------------------------------------- |
-| `all_status`   | Shortcut for`$conflicted$stashed$deleted$renamed$modified$staged$untracked`                                   |
+| `all_status`   | Shortcut for`$conflicted$stashed$deleted$renamed$modified$typechanged$staged$untracked`                       |
 | `ahead_behind` | Displays `diverged`, `ahead`, `behind` or `up_to_date` format string based on the current status of the repo. |
 | `conflicted`   | Displays `conflicted` when this branch has merge conflicts.                                                   |
 | `untracked`    | Displays `untracked` when there are untracked files in the working directory.                                 |
@@ -3032,7 +3044,9 @@ The [os_info](https://lib.rs/crates/os_info) crate used by this module is known 
 ```toml
 # This is the default symbols table.
 [os.symbols]
+AIX = "➿ "
 Alpaquita = "🔔 "
+AlmaLinux = "💠 "
 Alpine = "🏔️ "
 Amazon = "🙂 "
 Android = "🤖 "
@@ -3049,6 +3063,7 @@ Garuda = "🦅 "
 Gentoo = "🗜️ "
 HardenedBSD = "🛡️ "
 Illumos = "🐦 "
+Kali = "🐉 "
 Linux = "🐧 "
 Mabox = "📦 "
 Macos = "🍎 "
@@ -3067,11 +3082,14 @@ Pop = "🍭 "
 Raspbian = "🍓 "
 Redhat = "🎩 "
 RedHatEnterprise = "🎩 "
+RockyLinux = "💠 "
 Redox = "🧪 "
 Solus = "⛵ "
 SUSE = "🦎 "
 Ubuntu = "🎯 "
+Ultramarine = "🔷 "
 Unknown = "❓ "
+Void = "  "
 Windows = "🪟 "
 ```
 
@@ -3356,7 +3374,7 @@ The `python` module shows the currently installed version of [Python](https://ww
 
 If `pyenv_version_name` is set to `true`, it will display the pyenv version name. Otherwise, it will display the version number from `python --version`.
 
-By default the module will be shown if any of the following conditions are met:
+By default, the module will be shown if any of the following conditions are met:
 
 - 目前資料夾中有一個 `.python-version` 檔案
 - 目前資料夾中有一個 `Pipfile` 檔案
@@ -3428,16 +3446,37 @@ python_binary = 'python3'
 detect_extensions = []
 ```
 
-```toml
-# ~/.config/starship.toml
+## Quarto
 
-[python]
-# Display the version of python from inside a local venv.
-#
-# Note this will only work when the venv is inside the project and it will only
-# work in the directory that contains the venv dir but maybe this is ok?
-python_binary = ['./venv/bin/python', 'python', 'python3', 'python2']
-```
+The `quarto` module shows the current installed version of Quarto used in a project.
+
+By default, the module will be shown if any of the following conditions are met:
+
+- The current directory contains a `_quarto.yml` file
+- The current directory contains any `*.qmd` file
+
+### 選項
+
+| 選項                  | 預設                                   | 說明                                                                        |
+| ------------------- | ------------------------------------ | ------------------------------------------------------------------------- |
+| `format`            | `'via [$symbol($version )]($style)'` | The format for the module.                                                |
+| `version_format`    | `'v${raw}'`                          | The version format. Available vars are `raw`, `major`, `minor`, & `patch` |
+| `symbol`            | `'⨁ '`                               | A format string representing the symbol of Quarto                         |
+| `style`             | `'bold #75AADB'`                     | 這個模組的風格。                                                                  |
+| `detect_extensions` | `['.qmd']`                           | Which extensions should trigger this module.                              |
+| `detect_files`      | `['_quarto.yml']`                    | Which filenames should trigger this module.                               |
+| `detect_folders`    | `[]`                                 | Which folders should trigger this module.                                 |
+| `disabled`          | `false`                              | Disables the `quarto` module.                                             |
+
+### 變數
+
+| 變數        | 範例        | 說明                                   |
+| --------- | --------- | ------------------------------------ |
+| version   | `1.4.549` | The version of `quarto`              |
+| symbol    |           | Mirrors the value of option `symbol` |
+| style\* |           | Mirrors the value of option `style`  |
+
+*: This variable can only be used as a part of a style string
 
 ## R
 
@@ -3584,11 +3623,12 @@ Starship gets the current Ruby version by running `ruby -v`.
 
 ### 變數
 
-| 變數        | 範例       | 說明                                   |
-| --------- | -------- | ------------------------------------ |
-| version   | `v2.5.1` | The version of `ruby`                |
-| symbol    |          | Mirrors the value of option `symbol` |
-| style\* |          | Mirrors the value of option `style`  |
+| 變數        | 範例       | 說明                                          |
+| --------- | -------- | ------------------------------------------- |
+| version   | `v2.5.1` | The version of `ruby`                       |
+| symbol    |          | Mirrors the value of option `symbol`        |
+| style\* |          | Mirrors the value of option `style`         |
+| gemset    | `test`   | Optional, gets the current RVM gemset name. |
 
 *: This variable can only be used as a part of a style string
 
@@ -4183,6 +4223,7 @@ By default, the module will be shown if any of the following conditions are met:
 - 目前使用者並非登入時的使用者
 - 使用者透過 SSH session 進行連線
 - 變數 `show_always` 被設為 true
+- The array `detect_env_vars` contains at least the name of one environment variable, that is set
 
 ::: tip
 
@@ -4192,13 +4233,14 @@ SSH connection is detected by checking environment variables `SSH_CONNECTION`, `
 
 ### 選項
 
-| 選項            | 預設                      | 說明                                          |
-| ------------- | ----------------------- | ------------------------------------------- |
-| `style_root`  | `'bold red'`            | The style used when the user is root/admin. |
-| `style_user`  | `'bold yellow'`         | 非 root 使用者時使用的風格。                           |
-| `format`      | `'[$user]($style) in '` | The format for the module.                  |
-| `show_always` | `false`                 | 總是顯示 `username` 模組。                         |
-| `disabled`    | `false`                 | 停用 `username` 模組。                           |
+| 選項                | 預設                      | 說明                                                        |
+| ----------------- | ----------------------- | --------------------------------------------------------- |
+| `style_root`      | `'bold red'`            | The style used when the user is root/admin.               |
+| `style_user`      | `'bold yellow'`         | 非 root 使用者時使用的風格。                                         |
+| `detect_env_vars` | `[]`                    | Which environment variable(s) should trigger this module. |
+| `format`          | `'[$user]($style) in '` | The format for the module.                                |
+| `show_always`     | `false`                 | 總是顯示 `username` 模組。                                       |
+| `disabled`        | `false`                 | 停用 `username` 模組。                                         |
 
 ### 變數
 
@@ -4209,6 +4251,8 @@ SSH connection is detected by checking environment variables `SSH_CONNECTION`, `
 
 ### 範例
 
+#### Always show the hostname
+
 ```toml
 # ~/.config/starship.toml
 
@@ -4218,6 +4262,17 @@ style_root = 'black bold'
 format = 'user: [$user]($style) '
 disabled = false
 show_always = true
+```
+
+#### Hide the hostname in remote tmux sessions
+
+```toml
+# ~/.config/starship.toml
+
+[hostname]
+ssh_only = false
+detect_env_vars = ['!TMUX', 'SSH_CONNECTION']
+disabled = false
 ```
 
 ## Vagrant
