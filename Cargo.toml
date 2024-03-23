@@ -51,7 +51,7 @@ gethostname = "0.4.3"
 # default feature restriction addresses https://github.com/starship/starship/issues/4251
 gix = { version = "0.61.1", default-features = false, features = ["max-performance-safe", "revision"] }
 gix-features = { version = "0.38.1", optional = true }
-indexmap = { version = "2.2.5", features = ["serde"] }
+indexmap = { version = "2.2.6", features = ["serde"] }
 log = { version = "0.4.21", features = ["std"] }
 # notify-rust is optional (on by default) because the crate doesn't currently build for darwin with nix
 # see: https://github.com/NixOS/nixpkgs/issues/160876
@@ -67,7 +67,7 @@ pest_derive = "2.7.8"
 quick-xml = "0.31.0"
 rand = "0.8.5"
 rayon = "1.9.0"
-regex = { version = "1.10.3", default-features = false, features = ["perf", "std", "unicode-perl"] }
+regex = { version = "1.10.4", default-features = false, features = ["perf", "std", "unicode-perl"] }
 rust-ini = "0.21.0"
 semver = "1.0.22"
 serde = { version = "1.0.197", features = ["derive"] }
@@ -86,7 +86,7 @@ unicode-segmentation = "1.11.0"
 unicode-width = "0.1.11"
 urlencoding = "2.1.3"
 versions = "6.2.0"
-which = "6.0.0"
+which = "6.0.1"
 yaml-rust = "0.4.5"
 
 process_control = { version = "4.1.0", features = ["crossbeam-channel"] }
