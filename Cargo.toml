@@ -1,6 +1,6 @@
 [package]
 name = "starship"
-version = "1.18.0"
+version = "1.18.1"
 authors = ["Starship Contributors"]
 build = "build.rs"
 categories = ["command-line-utilities"]
@@ -15,7 +15,7 @@ include = [
   "build.rs",
   "LICENSE",
   "/README.md",
-  "docs/.vuepress/public/presets/toml/",
+  "docs/public/presets/toml/",
   ".github/config-schema.json",
 ]
 keywords = ["prompt", "shell", "bash", "fish", "zsh"]
@@ -60,13 +60,13 @@ nu-ansi-term = "0.50.0"
 once_cell = "1.19.0"
 open = "5.1.2"
 # update os module config and tests when upgrading os_info
-os_info = "3.8.1"
+os_info = "3.8.2"
 path-slash = "0.2.1"
 pest = "2.7.8"
 pest_derive = "2.7.8"
 quick-xml = "0.31.0"
 rand = "0.8.5"
-rayon = "1.9.0"
+rayon = "1.10.0"
 regex = { version = "1.10.4", default-features = false, features = ["perf", "std", "unicode-perl"] }
 rust-ini = "0.21.0"
 semver = "1.0.22"
