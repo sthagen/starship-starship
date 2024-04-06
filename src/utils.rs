@@ -267,6 +267,10 @@ Elixir 1.10 (compiled with Erlang/OTP 22)\n",
             stdout: String::default(),
             stderr: String::default(),
         }),
+        "gleam --version" => Some(CommandOutput {
+            stdout: String::from("gleam 1.0.0\n"),
+            stderr: String::default(),
+        }),
         "go version" => Some(CommandOutput {
             stdout: String::from("go version go1.12.1 linux/amd64\n"),
             stderr: String::default(),
@@ -324,6 +328,10 @@ active boot switches: -d:release\n",
         }),
         "ocaml -vnum" => Some(CommandOutput {
             stdout: String::from("4.10.0\n"),
+            stderr: String::default(),
+        }),
+        "odin version" => Some(CommandOutput {
+            stdout: String::from("odin version dev-2024-03:fc587c507\n"),
             stderr: String::default(),
         }),
         "opa version" => Some(CommandOutput {
