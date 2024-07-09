@@ -43,7 +43,7 @@ gix-faster = ["gix-features/zlib-stock", "gix/fast-sha1"]
 
 [dependencies]
 chrono = { version = "0.4.38", default-features = false, features = ["clock", "std", "wasmbind"] }
-clap = { version = "4.5.8", features = ["derive", "cargo", "unicode"] }
+clap = { version = "4.5.9", features = ["derive", "cargo", "unicode"] }
 clap_complete = "4.5.7"
 dirs = "5.0.1"
 dunce = "1.0.4"
@@ -81,7 +81,7 @@ strsim = "0.11.1"
 systemstat = "=0.2.3"
 terminal_size = "0.3.0"
 toml = { version = "0.8.14", features = ["preserve_order"] }
-toml_edit = "0.22.14"
+toml_edit = "0.22.15"
 unicode-segmentation = "1.11.0"
 unicode-width = "0.1.13"
 urlencoding = "2.1.3"
