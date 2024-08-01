@@ -43,15 +43,15 @@ gix-faster = ["gix-features/zlib-stock", "gix/fast-sha1"]
 
 [dependencies]
 chrono = { version = "0.4.38", default-features = false, features = ["clock", "std", "wasmbind"] }
-clap = { version = "4.5.11", features = ["derive", "cargo", "unicode"] }
-clap_complete = "4.5.11"
+clap = { version = "4.5.13", features = ["derive", "cargo", "unicode"] }
+clap_complete = "4.5.12"
 dirs = "5.0.1"
 dunce = "1.0.4"
 gethostname = "0.5.0"
 # default feature restriction addresses https://github.com/starship/starship/issues/4251
 gix = { version = "0.64.0", default-features = false, features = ["max-performance-safe", "revision"] }
 gix-features = { version = "0.38.2", optional = true }
-indexmap = { version = "2.2.6", features = ["serde"] }
+indexmap = { version = "2.3.0", features = ["serde"] }
 log = { version = "0.4.22", features = ["std"] }
 # notify-rust is optional (on by default) because the crate doesn't currently build for darwin with nix
 # see: https://github.com/NixOS/nixpkgs/issues/160876
@@ -80,8 +80,8 @@ starship-battery = { version = "0.9.1", optional = true }
 strsim = "0.11.1"
 systemstat = "=0.2.3"
 terminal_size = "0.3.0"
-toml = { version = "0.8.17", features = ["preserve_order"] }
-toml_edit = "0.22.18"
+toml = { version = "0.8.19", features = ["preserve_order"] }
+toml_edit = "0.22.20"
 unicode-segmentation = "1.11.0"
 unicode-width = "0.1.13"
 urlencoding = "2.1.3"
