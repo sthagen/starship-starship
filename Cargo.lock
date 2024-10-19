@@ -2578,9 +2578,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.128"
+version = "1.0.131"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6ff5456707a1de34e7e37f2a6fd3d3f808c318259cbd01ab6377795054b483d8"
+checksum = "67d42a0bd4ac281beff598909bb56a86acaf979b84483e1c79c10dcaf98f8cf3"
 dependencies = [
  "itoa",
  "memchr",
@@ -2744,7 +2744,7 @@ checksum = "3c5e1a9a646d36c3599cd173a41282daf47c44583ad367b8e6837255952e5c67"
 
 [[package]]
 name = "starship"
-version = "1.20.1"
+version = "1.21.1"
 dependencies = [
  "chrono",
  "clap",
@@ -2762,7 +2762,6 @@ dependencies = [
  "nix",
  "notify-rust",
  "nu-ansi-term",
- "once_cell",
  "open",
  "os_info",
  "path-slash",
