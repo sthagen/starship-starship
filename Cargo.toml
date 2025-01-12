@@ -1,6 +1,6 @@
 [package]
 name = "starship"
-version = "1.21.1"
+version = "1.22.1"
 authors = ["Starship Contributors"]
 build = "build.rs"
 categories = ["command-line-utilities"]
@@ -72,7 +72,7 @@ semver = "1.0.24"
 serde = { version = "1.0.217", features = ["derive"] }
 serde_json = "1.0.135"
 sha1 = "0.10.6"
-shadow-rs = { version = "0.36.1", default-features = false }
+shadow-rs = { version = "0.37.0", default-features = false }
 # battery is optional (on by default) because the crate doesn't currently build for Termux
 # see: https://github.com/svartalf/rust-battery/issues/33
 starship-battery = { version = "0.10.0", optional = true }
@@ -91,6 +91,8 @@ yaml-rust2 = "0.9.0"
 
 guess_host_triple = "0.1.4"
 home = "0.5.11"
+# Temporary workaround for https://github.com/rust-lang/libz-sys/issues/225
+libz-ng-sys = { version = "<1.1.20", optional = true }
 shell-words = "1.1.0"
 
 [dependencies.schemars]
@@ -102,7 +104,7 @@ features = ["preserve_order", "indexmap2"]
 deelevate = "0.2.0"
 
 [target.'cfg(windows)'.dependencies.windows]
-version = "0.58.0"
+version = "0.59.0"
 features = [
   "Win32_Foundation",
   "Win32_UI_Shell",
@@ -115,7 +117,7 @@ features = [
 nix = { version = "0.29.0", default-features = false, features = ["feature", "fs", "user"] }
 
 [build-dependencies]
-shadow-rs = { version = "0.36.1", default-features = false }
+shadow-rs = { version = "0.37.0", default-features = false }
 dunce = "1.0.5"
 
 [target.'cfg(windows)'.build-dependencies]
