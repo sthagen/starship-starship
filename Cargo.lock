@@ -1962,9 +1962,9 @@ dependencies = [
 
 [[package]]
 name = "indexmap"
-version = "2.10.0"
+version = "2.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fe4cd85333e22411419a0bcae1297d25e58c9443848b11dc6a86fefe8c78a661"
+checksum = "f2481980430f9f78649238835720ddccc57e52df14ffce1c6f37391d61b563e9"
 dependencies = [
  "equivalent",
  "hashbrown 0.15.5",
@@ -3292,7 +3292,7 @@ dependencies = [
  "tempfile",
  "terminal_size",
  "toml 0.9.5",
- "toml_edit 0.23.3",
+ "toml_edit 0.23.4",
  "unicode-segmentation",
  "unicode-width",
  "urlencoding",
@@ -3635,9 +3635,9 @@ dependencies = [
 
 [[package]]
 name = "toml_edit"
-version = "0.23.3"
+version = "0.23.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "17d3b47e6b7a040216ae5302712c94d1cf88c95b47efa80e2c59ce96c878267e"
+checksum = "7211ff1b8f0d3adae1663b7da9ffe396eabe1ca25f0b0bee42b0da29a9ddce93"
 dependencies = [
  "indexmap",
  "toml_datetime 0.7.0",
