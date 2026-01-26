@@ -367,7 +367,7 @@
       "default": {
         "truncation_length": 3,
         "truncate_to_repo": true,
-        "substitutions": {},
+        "substitutions": [],
         "fish_style_pwd_dir_length": 0,
         "use_logical_path": true,
         "format": "[$path]($style)[$read_only]($read_only_style) ",
@@ -992,6 +992,24 @@
         ]
       }
     },
+    "maven": {
+      "$ref": "#/$defs/MavenConfig",
+      "default": {
+        "format": "via [$symbol($version )]($style)",
+        "version_format": "v${raw}",
+        "symbol": "🅼 ",
+        "style": "bold bright-cyan",
+        "disabled": false,
+        "recursive": false,
+        "detect_extensions": [],
+        "detect_files": [
+          "pom.xml"
+        ],
+        "detect_folders": [
+          ".mvn"
+        ]
+      }
+    },
     "memory_usage": {
       "$ref": "#/$defs/MemoryConfig",
       "default": {
@@ -1418,7 +1436,8 @@
         "detect_folders": [],
         "detect_env_vars": [
           "VIRTUAL_ENV"
-        ]
+        ],
+        "generic_venv_names": []
       }
     },
     "quarto": {
@@ -2650,11 +2669,8 @@
           "default": true
         },
         "substitutions": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "default": {}
+          "$ref": "#/$defs/Either",
+          "default": []
         },
         "fish_style_pwd_dir_length": {
           "type": "integer",
@@ -2717,6 +2733,42 @@
         }
       },
       "additionalProperties": false
+    },
+    "Either": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SubstitutionConfig"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "SubstitutionConfig": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "regex": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "from",
+        "to"
+      ]
     },
     "DirenvConfig": {
       "type": "object",
@@ -4525,6 +4577,61 @@
       },
       "additionalProperties": false
     },
+    "MavenConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "default": "via [$symbol($version )]($style)"
+        },
+        "version_format": {
+          "type": "string",
+          "default": "v${raw}"
+        },
+        "symbol": {
+          "type": "string",
+          "default": "🅼 "
+        },
+        "style": {
+          "type": "string",
+          "default": "bold bright-cyan"
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "recursive": {
+          "type": "boolean",
+          "default": false
+        },
+        "detect_extensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "detect_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "pom.xml"
+          ]
+        },
+        "detect_folders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            ".mvn"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
     "MemoryConfig": {
       "type": "object",
       "properties": {
@@ -5340,7 +5447,7 @@
       "type": "object",
       "properties": {
         "pixi_binary": {
-          "$ref": "#/$defs/Either",
+          "$ref": "#/$defs/Either2",
           "default": [
             "pixi"
           ]
@@ -5396,7 +5503,7 @@
       },
       "additionalProperties": false
     },
-    "Either": {
+    "Either2": {
       "anyOf": [
         {
           "type": "string"
@@ -5504,7 +5611,7 @@
           "default": "pyenv "
         },
         "python_binary": {
-          "$ref": "#/$defs/Either",
+          "$ref": "#/$defs/Either2",
           "default": [
             [
               "python"
@@ -5577,6 +5684,13 @@
           "default": [
             "VIRTUAL_ENV"
           ]
+        },
+        "generic_venv_names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
         }
       },
       "additionalProperties": false
@@ -6114,7 +6228,7 @@
           "default": "S "
         },
         "compiler": {
-          "$ref": "#/$defs/Either",
+          "$ref": "#/$defs/Either2",
           "default": [
             "solc"
           ]
@@ -6820,7 +6934,7 @@
           "default": ""
         },
         "when": {
-          "$ref": "#/$defs/Either2",
+          "$ref": "#/$defs/Either3",
           "default": false
         },
         "require_repo": {
@@ -6828,7 +6942,7 @@
           "default": false
         },
         "shell": {
-          "$ref": "#/$defs/Either",
+          "$ref": "#/$defs/Either2",
           "default": []
         },
         "description": {
@@ -6887,7 +7001,7 @@
       },
       "additionalProperties": false
     },
-    "Either2": {
+    "Either3": {
       "anyOf": [
         {
           "type": "boolean"
