@@ -3200,9 +3200,9 @@ dependencies = [
 
 [[package]]
 name = "shadow-rs"
-version = "1.7.0"
+version = "1.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6d9967e7c3cd89d19cd533d8fceb3e5dcee28cf97fe76441481abe1d32723039"
+checksum = "3c798acfc78a69c7b038adde44084d8df875555b091da42c90ae46257cdcc41a"
 dependencies = [
  "const_format",
  "is_debug",
@@ -3424,9 +3424,9 @@ dependencies = [
 
 [[package]]
 name = "tempfile"
-version = "3.26.0"
+version = "3.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "82a72c767771b47409d2345987fda8628641887d5466101319899796367354a0"
+checksum = "32497e9a4c7b38532efcdebeef879707aa9f794296a4f0244f6f69e9bc8574bd"
 dependencies = [
  "fastrand",
  "getrandom 0.4.1",
