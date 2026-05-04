@@ -107,7 +107,7 @@ jobs:
 
       - name: Setup | Install cross [Linux]
         if: matrix.os == 'ubuntu-latest'
-        uses: taiki-e/install-action@7a4939c09608b2a1986b484eca1d16fd0db8ebef # v2.75.5
+        uses: taiki-e/install-action@7769b73c2ec98c38dfcf2e18c83cfd4880c038c1 # v2.75.27
         with:
           tool: cross@0.2.5
 
@@ -141,7 +141,7 @@ jobs:
       - name: Sign | Sign [Windows]
         continue-on-error: true
         if: matrix.os == 'windows-latest'
-        uses: signpath/github-action-submit-signing-request@bc66d86b015a46e9c6d9700de73143a82f9570ff # v2.1
+        uses: signpath/github-action-submit-signing-request@b9d91eadd323de506c0c81cf0c7fe7438f3360fd # v2.2
         with:
           api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
           organization-id: '${{ vars.SIGNPATH_ORGANIZATION_ID }}'
@@ -323,7 +323,7 @@ jobs:
         run: rustup toolchain install stable --profile minimal --no-self-update
 
       - name: Build | Authenticate
-        uses: rust-lang/crates-io-auth-action@b7e9a28eded4986ec6b1fa40eeee8f8f165559ec # v1.0.3
+        uses: rust-lang/crates-io-auth-action@bbd81622f20ce9e2dd9622e3218b975523e45bbe # v1.0.4
         id: auth
 
       - name: Build | Publish
