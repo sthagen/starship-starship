@@ -3712,7 +3712,7 @@ package, and shows its current version. The module currently supports `npm`, `ni
 - [**Python**](https://www.python.org) - The `python` package version is extracted from a [PEP 621](https://peps.python.org/pep-0621/) compliant `pyproject.toml` or a `setup.cfg` present in the current directory
 - [**Composer**](https://getcomposer.org/) – The `composer` package version is extracted from the `composer.json` present
   in the current directory
-- [**Gradle**](https://gradle.org/) – The `gradle` package version is extracted from the `build.gradle` present in the current directory
+- [**Gradle**](https://gradle.org/) – The `gradle` package version is extracted from the `build.gradle` or `build.gradle.kts` present in the current directory
 - [**Julia**](https://docs.julialang.org/en/v1/stdlib/Pkg/) - The package version is extracted from the `Project.toml` present in the current directory
 - [**Mix**](https://hexdocs.pm/mix/) - The `mix` package version is extracted from the `mix.exs` present in the current directory
 - [**Helm**](https://helm.sh/docs/helm/helm_package/) - The `helm` chart version is extracted from the `Chart.yaml` present in the current directory
@@ -4678,13 +4678,14 @@ The module will only be shown if credentials are cached.
 
 ### Options
 
-| Option          | Default                  | Description                                             |
-| --------------- | ------------------------ | ------------------------------------------------------- |
-| `format`        | `'[as $symbol]($style)'` | The format of the module                                |
-| `symbol`        | `'🧙 '`                  | The symbol displayed when credentials are cached        |
-| `style`         | `'bold blue'`            | The style for the module.                               |
-| `allow_windows` | `false`                  | Since windows has no default sudo, default is disabled. |
-| `disabled`      | `true`                   | Disables the `sudo` module.                             |
+| Option             | Default                  | Description                                                                 |
+| ------------------ | ------------------------ | --------------------------------------------------------------------------- |
+| `format`           | `'[as $symbol]($style)'` | The format of the module                                                    |
+| `symbol`           | `'🧙 '`                  | The symbol displayed when credentials are cached                            |
+| `style`            | `'bold blue'`            | The style for the module.                                                   |
+| `allow_windows`    | `false`                  | Since windows has no default sudo, default is disabled.                     |
+| `disabled`         | `true`                   | Disables the `sudo` module.                                                 |
+| `use_legacy_check` | `false`                  | Uses the legacy sudo check for compatibility with older versions of `sudo`. |
 
 ### Variables
 
