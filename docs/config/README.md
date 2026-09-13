@@ -1303,7 +1303,7 @@ The `direnv` module shows the status of the current rc file if one is present. T
 | ------------------- | -------------------------------------- | ------------------------------------------------------- |
 | `format`            | `'[$symbol$loaded/$allowed]($style) '` | The format for the module.                              |
 | `symbol`            | `'direnv '`                            | The symbol used before displaying the direnv context.   |
-| `style`             | `'bold orange'`                        | The style for the module.                               |
+| `style`             | `'bold bright-yellow'`                 | The style for the module.                               |
 | `disabled`          | `true`                                 | Disables the `direnv` module.                           |
 | `detect_extensions` | `[]`                                   | Which extensions should trigger this module.            |
 | `detect_files`      | `['.envrc']`                           | Which filenames should trigger this module.             |
@@ -1712,8 +1712,8 @@ The `fortran` module shows the current compiler version of Fortran.
 
 | Option              | Default                                                                                                                     | Description                                                               |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `symbol`            | `' '`                                                                                                                      | The symbol used before displaying the version of Fortran.                 |
-| `format`            | `'via [$symbol($version )]($style)'`                                                                                        | The format for the module.                                                |
+| `symbol`            | `'🅵  '`                                                                                                                     | The symbol used before displaying the version of Fortran.                 |
+| `format`            | `'via [$symbol($version(-$name) )]($style)'`                                                                                | The format for the module.                                                |
 | `version_format`    | `'${raw}'`                                                                                                                  | The version format. Available vars are `raw`, `major`, `minor`, & `patch` |
 | `style`             | `'bold purple'`                                                                                                             | The style for the module.                                                 |
 | `detect_extensions` | `['f', 'F', 'for', 'FOR', 'ftn', 'FTN', 'f77', 'F77', 'f90', 'F90', 'f95', 'F95','f03', 'F03', 'f08', 'F08', 'f18', 'F18']` | Which extensions should trigger this module.                              |
@@ -1916,6 +1916,7 @@ The `git_branch` module shows the active branch of the repo in your current dire
 | `truncation_symbol`  | `'…'`                                             | The symbol used to indicate a branch name was truncated. You can use `''` for no symbol. |
 | `only_attached`      | `false`                                           | Only show the branch name when not in a detached `HEAD` state.                           |
 | `ignore_branches`    | `[]`                                              | A list of names to avoid displaying. Useful for 'master' or 'main'.                      |
+| `ignore_remotes`     | `[]`                                              | A list of remotes to avoid displaying. Useful for 'origin' or fetch-only remotes.        |
 | `ignore_bare_repo`   | `false`                                           | Do not show when in a bare repo.                                                         |
 | `disabled`           | `false`                                           | Disables the `git_branch` module.                                                        |
 
@@ -1941,6 +1942,7 @@ symbol = '🌱 '
 truncation_length = 4
 truncation_symbol = ''
 ignore_branches = ['master', 'main']
+ignore_remotes = ['origin', 'upstream']
 ```
 
 ## Git Commit
@@ -2606,6 +2608,86 @@ It looks at `@ | @-` to find bookmarks and will prioritize displaying those of `
 [jj_bookmark]
 ignore_names = ["main", "master"]
 diverged_symbol = "⇕"
+```
+
+## JJ Change
+
+The `jj_change` module shows the current [Jujutsu](https://docs.jj-vcs.dev/) change and optionally the underlying commit when the current directory is in a Jujutsu repository.
+
+### Options
+
+| Option                | Default      | Description                                                               |
+| --------------------- | ------------ | ------------------------------------------------------------------------- |
+| `format`              | `"$change "` | Format string for the module                                              |
+| `prefix_style`        | `bold green` | Value of the `$prefix_style` variable in the format string                |
+| `suffix_style`        | `dimmed`     | Value of the `$suffix_style` variable in the format string                |
+| `change_offset_style` | `bold`       | Value of the `$change_offset_style` variable in the format string         |
+| `change_hash_length`* | `7`          | The length of the displayed change hash, when combining prefix and suffix |
+| `commit_hash_length`* | `7`          | The length of the displayed commit hash, when combining prefix and suffix |
+| `disabled`            | `false`      | Disable the module                                                        |
+
+*: The length of `$<id>_prefix` will be `max(<id>_prefix.len(), <id>_hash_length)`, to ensure the shortest unique
+prefix is always correctly displayed
+
+### Variables
+
+| Variable              | Example | Description                                                                                                                               |
+| --------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| change                |         | The full styled change at once: `[$change_prefix]($prefix_style)[$change_suffix]($suffix_style)([/$change_offset]($change_offset_style))` |
+| change_prefix         | `vpo`   | Current change hash shortest unique prefix                                                                                                |
+| change_suffix         | `vrqx`  | Current change hash, truncated to `change_hash_length` and after removing `change_prefix`                                                 |
+| change_offset         | `2`     | Offset of the current change, if it is divergent                                                                                          |
+| commit                |         | The full styled commit at once: `[$commit_prefix]($prefix_style)[$commit_suffix]($suffix_style)`                                          |
+| commit_prefix         | `303`   | Current commit hash shortest unique prefix                                                                                                |
+| commit_suffix         | `63e4`  | Current commit hash, truncated to `commit_hash_length` and after removing `commit_prefix`                                                 |
+| prefix_style\*        |         | Mirrors the value of option `prefix_style`                                                                                                |
+| suffix_style\*        |         | Mirrors the value of option `suffix_style`                                                                                                |
+| change_offset_style\* |         | Mirrors the value of option `change_offset_style`                                                                                         |
+
+*: This variable can only be used as a part of a style string
+
+### Example
+
+```toml
+# ~/.config/starship.toml
+
+[jj_change]
+format = "($change:$commit) "
+```
+
+## JJ Metrics
+
+The `jj_metrics` module shows the number of added and deleted lines in the current [Jujutsu](https://docs.jj-vcs.dev/) repository.
+
+### Options
+
+| Option               | Default                                                      | Description                           |
+| -------------------- | ------------------------------------------------------------ | ------------------------------------- |
+| `added_style`        | `'bold green'`                                               | The style for the added count.        |
+| `deleted_style`      | `'bold red'`                                                 | The style for the deleted count.      |
+| `only_nonzero_diffs` | `true`                                                       | Render status only for changed items. |
+| `format`             | `'([+$added]($added_style) )([-$deleted]($deleted_style) )'` | The format for the module.            |
+| `disabled`           | `false`                                                      | Disables the `jj_metrics` module.     |
+
+### Variables
+
+| Variable        | Example | Description                                 |
+| --------------- | ------- | ------------------------------------------- |
+| added           | `1`     | The current number of added lines           |
+| deleted         | `2`     | The current number of deleted lines         |
+| added_style\*   |         | Mirrors the value of option `added_style`   |
+| deleted_style\* |         | Mirrors the value of option `deleted_style` |
+
+*: This variable can only be used as a part of a style string
+
+### Example
+
+```toml
+# ~/.config/starship.toml
+
+[jj_metrics]
+added_style = 'bold blue'
+format = '[+$added]($added_style)/[-$deleted]($deleted_style) '
 ```
 
 ## Jobs
